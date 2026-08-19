@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:18-alpine
+    command: postgres -c 'max_connections=300'
+    container_name: db
+    restart: always
+    environment:
+      TZ: ${TZ}
+      LANG: en_US.utf8
+      LC_ALL: en_US.utf8
+      JDK_JAVA_OPTIONS: '-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8'
+      POSTGRES_DB: auth
+      POSTGRES_USER: auth
+      POSTGRES_PASSWORD: 12345678
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
