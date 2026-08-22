@@ -26,9 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 public class NewPasswordServiceImpl implements NewPasswordService {
     private final UserRecoveryRepository userRecoveryRepository;
     private final UserRepository userRepository;
-    private final Optional<NotificationService> newPasswordNotificationService;
     private final PasswordEncoder passwordEncoder;
     private final AuditService newPasswordAuditServiceImpl;
+
+    private NotificationService newPasswordNotificationService;
 
     @Override
     public void update(NewPassword newPassword) {
@@ -60,11 +61,7 @@ public class NewPasswordServiceImpl implements NewPasswordService {
         userRepository.save(user);
         userRecoveryRepository.save(recovery);
         newPasswordAuditServiceImpl.save(user);
-
-        if(newPasswordNotificationService.isPresent()) {
-            log.debug("Sending notification to new password.");
-            newPasswordNotificationService.get().sendNotification(user);
-        }
+        newPasswordNotificationService.send(user);
     }
     
 }

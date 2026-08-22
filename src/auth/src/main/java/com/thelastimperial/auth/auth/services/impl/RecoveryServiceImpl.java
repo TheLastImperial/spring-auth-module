@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RecoveryServiceImpl implements RecoveryService {
     private final UserRecoveryRepository userRecoveryRepository;
     private final UsernameService usernameService;
-    private final Optional<NotificationService> recoveryNotificationService;
+    private NotificationService recoveryNotificationService;
 
     @Override
     public void generate(Recovery recovery) {
@@ -46,11 +46,7 @@ public class RecoveryServiceImpl implements RecoveryService {
                 .build();
         }
         UserRecoveryEntity saved = userRecoveryRepository.save(toSave);
-
-        if(recoveryNotificationService.isPresent()){
-            log.debug("Sending notification to recovery.");
-            recoveryNotificationService.get().sendNotification(saved);
-        }
+        recoveryNotificationService.send(saved);
     }
-    
+
 }

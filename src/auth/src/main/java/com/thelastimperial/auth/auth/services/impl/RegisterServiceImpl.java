@@ -21,11 +21,11 @@ public class RegisterServiceImpl implements RegisterService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserActivationRepository userActivationRepository;
-    private final Optional<NotificationService> registerNotificationService;
+    private NotificationService registerNotificationService;
     
     public RegisterServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository,
         UserActivationRepository userActivationRepository,
-        Optional<NotificationService> registerNotificationService
+        NotificationService registerNotificationService
     ) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -45,9 +45,7 @@ public class RegisterServiceImpl implements RegisterService {
             .user(user)
             .build();
         UserActivationEntity activation = userActivationRepository.save(toSaveAct);
-        if(registerNotificationService.isPresent()){
-            registerNotificationService.get().sendNotification(activation);
-        }
+        registerNotificationService.send(activation);
     }
-    
+
 }
