@@ -33,8 +33,8 @@ public class NewPasswordAuditServiceImpl implements AuditService {
             .updatedBy(user.getId())
             .action(action)
             .build();
-        log.info("Audit to save: " + toSave);
+        log.info("Audit to save: " + toSave.getId());
         userAuditRepository.save(toSave);
     }
-    
+
 }
