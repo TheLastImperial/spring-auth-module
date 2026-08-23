@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import com.thelastimperial.auth.auth.controllers.requests.NewPassword;
 import com.thelastimperial.auth.auth.services.AuditService;
@@ -21,15 +20,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
-@Service
 @Slf4j
 public class NewPasswordServiceImpl implements NewPasswordService {
     private final UserRecoveryRepository userRecoveryRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuditService newPasswordAuditServiceImpl;
-
-    private NotificationService newPasswordNotificationService;
+    private final NotificationService newPasswordNotificationService;
 
     @Override
     public void update(NewPassword newPassword) {

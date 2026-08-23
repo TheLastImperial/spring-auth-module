@@ -2,8 +2,6 @@ package com.thelastimperial.auth.auth.services.impl;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import com.thelastimperial.auth.auth.services.AuditService;
 import com.thelastimperial.auth.domain.entities.UserActionEntity;
 import com.thelastimperial.auth.domain.entities.UserAuditEntity;
@@ -15,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
-@Service
 @Slf4j
 public class ActivationAuditServiceImpl implements AuditService {
     private final UserAuditRepository userAuditRepository;

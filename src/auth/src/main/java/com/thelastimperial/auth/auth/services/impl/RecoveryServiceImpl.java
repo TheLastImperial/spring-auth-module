@@ -3,8 +3,6 @@ package com.thelastimperial.auth.auth.services.impl;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import com.thelastimperial.auth.auth.controllers.requests.Recovery;
 import com.thelastimperial.auth.auth.services.NotificationService;
 import com.thelastimperial.auth.auth.services.RecoveryService;
@@ -17,12 +15,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
-@Service
 @Slf4j
 public class RecoveryServiceImpl implements RecoveryService {
     private final UserRecoveryRepository userRecoveryRepository;
     private final UsernameService usernameService;
-    private NotificationService recoveryNotificationService;
+    private final NotificationService recoveryNotificationService;
 
     @Override
     public void generate(Recovery recovery) {

@@ -1,10 +1,6 @@
 package com.thelastimperial.auth.auth.services.impl;
 
-import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.thelastimperial.auth.auth.controllers.requests.NewUser;
 import com.thelastimperial.auth.auth.services.NotificationService;
 import com.thelastimperial.auth.auth.services.RegisterService;
@@ -15,13 +11,12 @@ import com.thelastimperial.auth.domain.repositories.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
 public class RegisterServiceImpl implements RegisterService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserActivationRepository userActivationRepository;
-    private NotificationService registerNotificationService;
+    private final NotificationService registerNotificationService;
     
     public RegisterServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository,
         UserActivationRepository userActivationRepository,
