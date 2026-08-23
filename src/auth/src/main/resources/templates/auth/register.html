@@ -35,13 +35,20 @@
         <label for="password" class="form-label text-secondary fw-semibold small">
           Password
         </label>
-          <input
-            th:field="*{password}"
-            th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
-            type="password"
-            class="form-control"
-            placeholder="••••••••"
-            required>
+          <div class="input-group">
+            <input
+              th:field="*{password}"
+              th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+              type="password"
+              class="form-control"
+              placeholder="••••••••"
+              required>
+              <span
+                class="input-group-text bg-white border-start-0"
+                onclick="showPassword('password', 'showPasswordIcon')">
+                <i class="bi bi-eye-slash" id="showPasswordIcon"></i>
+              </span>
+          </div>
           <span
             th:if="${#fields.hasErrors('password')}"
             th:errors="*{password}"
@@ -53,13 +60,20 @@
         <label for="password" class="form-label text-secondary fw-semibold small">
           Confirm Password
         </label>
-        <input
-          th:field="*{passwordConfirmation}"
-          th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'is-invalid' : ''"
-          type="password"
-          class="form-control"
-          placeholder="••••••••"
-          required>
+        <div class="input-group">
+          <input
+            th:field="*{passwordConfirmation}"
+            th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'is-invalid' : ''"
+            type="password"
+            class="form-control"
+            placeholder="••••••••"
+            required>
+            <span
+              class="input-group-text bg-white border-start-0"
+              onclick="showPassword('passwordConfirmation', 'showPasswordConfirmationIcon')">
+              <i class="bi bi-eye-slash" id="showPasswordConfirmationIcon"></i>
+            </span>
+        </div>
           <span
             th:if="${#fields.hasErrors('passwordConfirmation')}"
             th:errors="*{passwordConfirmation}"
@@ -72,6 +86,7 @@
 
     </form>
   </div>
+  <script th:src="@{/js/auth/auth.js}"></script>
 </div>
 </body>
 </html>

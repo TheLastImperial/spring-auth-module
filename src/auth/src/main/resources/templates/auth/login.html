@@ -45,7 +45,7 @@
               required>
               <span
                 class="input-group-text bg-white border-start-0"
-                onclick="showPassword()">
+                onclick="showPassword('password', 'showPasswordIcon')">
                 <i class="bi bi-eye-slash" id="showPasswordIcon"></i>
               </span>
           </div>
@@ -82,19 +82,7 @@
       </div>
 
     </div>
-    <script>
-      const showPassword = () => {
-        const passEle = document.getElementById("password");
-        const iconEle = document.getElementById("showPasswordIcon");
-        if(passEle.getAttribute("type") === "password"){
-          passEle.setAttribute("type", "text");
-          iconEle.setAttribute("class", "bi bi-eye");
-        }else{
-          passEle.setAttribute("type", "password");
-          iconEle.setAttribute("class", "bi bi-eye-slash");
-        }
-      }
-    </script>
+    <script th:src="@{/js/auth/auth.js}"></script>
   </div>
 </body>
 </html>
