@@ -29,6 +29,8 @@ import com.thelastimperial.auth.auth.services.impl.NewPasswordAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RecoveryServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RegisterServiceImpl;
+import com.thelastimperial.auth.auth.services.impl.UserDetailsServiceImpl;
+import com.thelastimperial.auth.auth.services.impl.UserServiceImpl;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
 import com.thelastimperial.auth.domain.repositories.UserAuditRepository;
@@ -147,13 +149,26 @@ public class AuthAutoConfiguration {
     }
 
     @Bean
-    public RegisterService RegisterServiceImpl(PasswordEncoder passwordEncoder, 
+    @ConditionalOnMissingBean
+    public RegisterService registerServiceImpl(PasswordEncoder passwordEncoder, 
         UserRepository userRepository, UserActivationRepository userActivationRepository,
         NotificationService registerNotificationService
     ) {
         return new RegisterServiceImpl(passwordEncoder, userRepository, userActivationRepository,
                 registerNotificationService
             );
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public UsernameService userServiceImpl(UserRepository userRepository) {
+        return new UserServiceImpl(userRepository);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public UserDetailsService userDetailsServiceImpl(UsernameService usernameService) {
+        return new UserDetailsServiceImpl(usernameService);
     }
 
 }
