@@ -9,5 +9,6 @@ import java.util.List;
 
 
 public interface UserRoleRepository extends JpaRepository<UserRoleEntity, UUID>{
-    public List<UserRoleEntity> findByDefault(boolean isDefault);
+    public List<UserRoleEntity> findByIsDefault(boolean isDefault);
+    public List<UserRoleEntity> findByNameIn(List<String> names);
 }
