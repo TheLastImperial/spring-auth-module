@@ -25,6 +25,16 @@ For register notification you have to create a new service with the name
 For recovery notification you have to create a new service with the name
 `recoveryNotificationService` to be injected and used.
 
+### New Password Notification
+
+For new password notification you have to create a new service with the name
+`newPasswordNotificationService` to be injected and used.
+
+## Default user roles.
+
+To overwrite the default User roles you can create a new Bean that implements
+the interface `DefaultUserRoleService`.
+
 ## Security filter chain
 
 Use the default security filter chain to activate.

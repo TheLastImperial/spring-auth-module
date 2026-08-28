@@ -1,4 +1,4 @@
-<html layout:decorate="~{/auth/layout}">
+<html layout:decorate="~{auth/layout}">
 <body>
 <div layout:fragment="content">
   <div class="card shadow-lg p-4 p-md-5">
@@ -30,6 +30,10 @@
 
       <div class="d-grid gap-2">
         <button type="submit" class="btn btn-primary">Send</button>
+        <a th:href="@{/auth/login}"
+          class="text-primary-custom small">
+          Log in
+        </a>
       </div>
 
     </form>
