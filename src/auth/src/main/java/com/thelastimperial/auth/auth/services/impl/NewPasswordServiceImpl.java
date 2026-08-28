@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.thelastimperial.auth.auth.controllers.requests.NewPassword;
-import com.thelastimperial.auth.auth.services.AuditService;
 import com.thelastimperial.auth.auth.services.NewPasswordService;
 import com.thelastimperial.auth.auth.services.NotificationService;
 import com.thelastimperial.auth.domain.entities.UserEntity;
@@ -15,6 +14,7 @@ import com.thelastimperial.auth.domain.entities.UserRecoveryEntity;
 import com.thelastimperial.auth.domain.repositories.UserRecoveryRepository;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 import com.thelastimperial.utils.UUIDUtils;
+import com.thelastimperial.utils.services.AuditService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class NewPasswordServiceImpl implements NewPasswordService {
     private final UserRecoveryRepository userRecoveryRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuditService newPasswordAuditServiceImpl;
+    private final AuditService<UserEntity> newPasswordAuditServiceImpl;
     private final NotificationService newPasswordNotificationService;
 
     @Override

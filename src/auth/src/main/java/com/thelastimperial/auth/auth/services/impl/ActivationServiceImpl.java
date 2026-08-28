@@ -5,12 +5,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.thelastimperial.auth.auth.services.ActivationService;
-import com.thelastimperial.auth.auth.services.AuditService;
 import com.thelastimperial.auth.domain.entities.UserActivationEntity;
 import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 import com.thelastimperial.utils.UUIDUtils;
+import com.thelastimperial.utils.services.AuditService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ActivationServiceImpl implements ActivationService{
     private final UserActivationRepository userActivationRepository;
     private final UserRepository userRepository;
-    private final AuditService activationAuditServiceImpl;
+    private final AuditService<UserEntity> activationAuditServiceImpl;
 
     @Override
     public void activate(String tokenId) {
@@ -41,6 +41,9 @@ public class ActivationServiceImpl implements ActivationService{
         }
         UserEntity user = activation.getUser();
         user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
         activation.setUsed(true);
         activation.setActivatedAt(LocalDateTime.now());
 

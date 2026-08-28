@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 import com.thelastimperial.auth.auth.controllers.ActivationController;
+import com.thelastimperial.auth.auth.controllers.HomeController;
 import com.thelastimperial.auth.auth.controllers.LoginController;
 import com.thelastimperial.auth.auth.controllers.NewPasswordController;
 import com.thelastimperial.auth.auth.controllers.RecoveryController;
@@ -46,5 +47,11 @@ public class AuthControllerAutoConfiguration {
     @ConditionalOnMissingBean
     public RegisterController registerController(RegisterService registerService) {
         return new RegisterController(registerService);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public HomeController homeController() {
+        return new HomeController();
     }
 }

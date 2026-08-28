@@ -2,26 +2,25 @@ package com.thelastimperial.auth.auth.services.impl;
 
 import java.util.Optional;
 
-import com.thelastimperial.auth.auth.services.AuditService;
 import com.thelastimperial.auth.domain.entities.UserActionEntity;
 import com.thelastimperial.auth.domain.entities.UserAuditEntity;
 import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserAuditRepository;
+import com.thelastimperial.utils.services.AuditService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
 @Slf4j
-public class ActivationAuditServiceImpl implements AuditService {
+public class ActivationAuditServiceImpl implements AuditService<UserEntity> {
     private final UserAuditRepository userAuditRepository;
     private final UserActionRepository userActionRepository;
     private final String ACTIVATION_ID = "ACCOUNT_ACTIVATION";
 
     @Override
-    public void save(Object rq) {
-        UserEntity user = (UserEntity) rq;
+    public void save(UserEntity user) {
         Optional<UserActionEntity> actionOpt = userActionRepository.findById(ACTIVATION_ID);
         if(actionOpt.isEmpty()){
             throw new RuntimeException("There must be the action ID: " + ACTIVATION_ID);

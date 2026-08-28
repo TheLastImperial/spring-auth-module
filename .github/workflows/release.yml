@@ -1,0 +1,78 @@
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up JDK 21
+      uses: actions/setup-java@v6
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B clean package -DskipTests
+
+    - name: Get Project version
+      id: get_version
+      run: |
+        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "Version: $VERSION"
+
+    - name: Get Auth ArtefactId
+      id: get_auth_artefact_id
+      run: |
+        AUTH_ARTEFACT=$(mvn -f src/auth/pom.xml help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+        echo "AUTH_ARTEFACT=$AUTH_ARTEFACT" >> $GITHUB_ENV
+        echo "Auth Artefact ID: $AUTH_ARTEFACT"
+
+    - name: Get Domain ArtefactId
+      id: get_domain_artefact_id
+      run: |
+        DOMAIN_ARTEFACT=$(mvn -f src/domain/pom.xml help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+        echo "DOMAIN_ARTEFACT=$DOMAIN_ARTEFACT" >> $GITHUB_ENV
+        echo "Domain Artefact ID: $DOMAIN_ARTEFACT"
+
+    - name: Create notes for release from commits.
+      id: release_notes
+      run: |
+        # Search last tag
+        PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
+        
+        if [ -z "$PREV_TAG" ]; then
+          echo "Not previus tag. Get all commits..."
+          CHANGELOG=$(git log --pretty=format:"* %s (%h)")
+        else
+          echo "Get commits from: $PREV_TAG..."
+          CHANGELOG=$(git log ${PREV_TAG}..HEAD --pretty=format:"* %s (%h)")
+        fi
+
+        # Save messages in multiline variable.
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+        echo "CHANGELOG<<$EOF" >> $GITHUB_ENV
+        echo "$CHANGELOG" >> $GITHUB_ENV
+        echo "$EOF" >> $GITHUB_ENV
+
+    - name: create Tag and Release on GitHub
+      uses: softprops/action-gh-release@v3
+      with:
+        tag_name: "v${{ env.VERSION }}"
+        name: "Release v${{ env.VERSION }}"
+        body: |
+          ${{ env.CHANGELOG }}
+        draft: false
+        prerelease: false
+        files: |
+            src/auth/target/${{ env.AUTH_ARTEFACT }}-${{ env.AUTH_ARTEFACT }}.jar
+            src/domain/target/${{ env.DOMAIN_ARTEFACT }}-${{ env.DOMAIN_ARTEFACT }}.jar

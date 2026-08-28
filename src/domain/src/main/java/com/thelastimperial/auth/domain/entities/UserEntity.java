@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -41,9 +42,13 @@ public class UserEntity implements Username {
     private String username;
     private String password;
 
+    @ColumnDefault(value = "true")
     private boolean enabled;
+    @ColumnDefault(value = "true")
     private boolean accountNonExpired;
+    @ColumnDefault(value = "true")
     private boolean credentialsNonExpired;
+    @ColumnDefault(value = "true")
     private boolean accountNonLocked;
 
     @ManyToMany(fetch = FetchType.LAZY)
