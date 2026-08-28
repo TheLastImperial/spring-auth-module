@@ -1,10 +1,10 @@
-INSERT INTO user_roles(id, name, created_at, updated_at)
+INSERT INTO user_roles(id, name, created_at, updated_at, is_default)
 VALUES
-('019dffbe-d07e-7bfd-ab68-f566727ec57a', 'ROLE_ROOT', NOW(), NOW()),
-('019dffbe-d07e-7bfd-ab68-f566727ec57b', 'ROLE_ADMIN', NOW(), NOW()),
-('019dffbe-d07e-7bfd-ab68-f566727ec57c', 'ROLE_USER', NOW(), NOW()),
-('019dffbe-d07e-7bfd-ab68-f566727ec57d', 'ROLE_MONITOR', NOW(), NOW()),
-('019dffbe-d07e-7bfd-ab68-f566727ec57e', 'ROLE_SYSTEM_BATCH', NOW(), NOW());
+('019dffbe-d07e-7bfd-ab68-f566727ec57a', 'ROLE_ROOT', NOW(), NOW(), false),
+('019dffbe-d07e-7bfd-ab68-f566727ec57b', 'ROLE_ADMIN', NOW(), NOW(), false),
+('019dffbe-d07e-7bfd-ab68-f566727ec57c', 'ROLE_USER', NOW(), NOW(), true),
+('019dffbe-d07e-7bfd-ab68-f566727ec57d', 'ROLE_MONITOR', NOW(), NOW(), false),
+('019dffbe-d07e-7bfd-ab68-f566727ec57e', 'ROLE_SYSTEM_BATCH', NOW(), NOW(), false);
 
 INSERT INTO user_actions (id, description, created_at, updated_at)
 VALUES

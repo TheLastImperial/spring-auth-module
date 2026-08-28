@@ -54,16 +54,17 @@ CREATE TABLE public.user_roles (
     id uuid NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     name character varying(255),
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    is_default boolean NOT NULL DEFAULT false
 );
 
 CREATE TABLE public.users (
     id uuid NOT NULL,
-    account_non_expired boolean NOT NULL,
-    account_non_locked boolean NOT NULL,
+    account_non_expired boolean NOT NULL DEFAULT true,
+    account_non_locked boolean NOT NULL DEFAULT true,
     created_at timestamp(6) without time zone NOT NULL,
-    credentials_non_expired boolean NOT NULL,
-    enabled boolean NOT NULL,
+    credentials_non_expired boolean NOT NULL DEFAULT true,
+    enabled boolean NOT NULL DEFAULT true,
     password character varying(255),
     updated_at timestamp(6) without time zone NOT NULL,
     username character varying(255) NOT NULL

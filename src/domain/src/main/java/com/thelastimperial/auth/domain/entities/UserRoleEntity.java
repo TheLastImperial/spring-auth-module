@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,6 +31,8 @@ public class UserRoleEntity {
     private UUID id;
 
     private String name;
+    @ColumnDefault(value = "false")
+    private boolean isDefault;
 
     @ManyToMany(mappedBy = "roles")
     private List<UserEntity> users;
