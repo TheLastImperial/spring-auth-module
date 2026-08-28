@@ -43,9 +43,6 @@ public class RegisterServiceImpl implements RegisterService {
             .password(passwordEncoder.encode(newUser.getPassword()))
             .roles(roles)
             .enabled(false)
-            .accountNonExpired(true)
-            .accountNonLocked(true)
-            .credentialsNonExpired(true)
             .build();
         UserEntity user = userRepository.save(toSave);
         UserActivationEntity toSaveAct = UserActivationEntity.builder()

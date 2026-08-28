@@ -1,5 +1,5 @@
 package com.thelastimperial.auth.auth.services;
 
-public interface NotificationService {
-    public void send(Object rq);
+public interface NotificationService<T> {
+    public void send(T rq);
 }

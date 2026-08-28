@@ -45,7 +45,7 @@ public class AuthAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(NotificationService.class)
-    public NotificationService notificationService(){
+    public NotificationService<Object> notificationService(){
         return new DefaultNotificationServiceImpl();
     }
 
@@ -112,8 +112,8 @@ public class AuthAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean( name = "newPasswordAuditServiceImpl")
-    public AuditService<UserEntity> newPasswordAuditServiceImpl(UserAuditRepository userAuditRepository,
-        UserActionRepository userActionRepository
+    public AuditService<UserEntity> newPasswordAuditServiceImpl(
+        UserAuditRepository userAuditRepository, UserActionRepository userActionRepository
     ) {
         return new NewPasswordAuditServiceImpl(userAuditRepository, userActionRepository);
     }
@@ -133,7 +133,8 @@ public class AuthAutoConfiguration {
     @ConditionalOnMissingBean
     public NewPasswordService newPasswordServiceImpl(UserRecoveryRepository userRecoveryRepository,
         UserRepository userRepository, PasswordEncoder passwordEncoder,
-        AuditService<UserEntity> newPasswordAuditServiceImpl, NotificationService newPasswordNotificationService
+        AuditService<UserEntity> newPasswordAuditServiceImpl,
+        NotificationService<?> newPasswordNotificationService
     ) {
         return new NewPasswordServiceImpl(userRecoveryRepository, userRepository, passwordEncoder,
                 newPasswordAuditServiceImpl, newPasswordNotificationService
@@ -143,7 +144,7 @@ public class AuthAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public RecoveryService recoveryServiceImpl(UserRecoveryRepository userRecoveryRepository,
-        UsernameService usernameService, NotificationService recoveryNotificationService
+        UsernameService usernameService, NotificationService<?> recoveryNotificationService
     ) {
         return new RecoveryServiceImpl(userRecoveryRepository, usernameService,
                 recoveryNotificationService
@@ -156,7 +157,7 @@ public class AuthAutoConfiguration {
         UserRepository userRepository, 
         UserRoleRepository userRoleRepository,
         UserActivationRepository userActivationRepository,
-        NotificationService registerNotificationService
+        NotificationService<?> registerNotificationService
     ) {
         return new RegisterServiceImpl(passwordEncoder, userRepository, 
             userRoleRepository, userActivationRepository, registerNotificationService
