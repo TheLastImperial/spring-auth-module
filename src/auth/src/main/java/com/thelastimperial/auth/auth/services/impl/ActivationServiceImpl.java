@@ -41,6 +41,9 @@ public class ActivationServiceImpl implements ActivationService{
         }
         UserEntity user = activation.getUser();
         user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
         activation.setUsed(true);
         activation.setActivatedAt(LocalDateTime.now());
 
