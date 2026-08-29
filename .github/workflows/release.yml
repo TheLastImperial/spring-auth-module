@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      packages: write
+
     steps:
     - uses: actions/checkout@v7
     - name: Set up JDK 21
@@ -21,7 +23,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B clean package -DskipTests
+      run: mvn -B clean package deploy -DskipTests
 
     - name: Get Project version
       id: get_version

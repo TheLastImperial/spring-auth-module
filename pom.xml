@@ -35,6 +35,12 @@
         <module>src/domain</module>
         <module>src/auth</module>
     </modules>
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/TheLastImperial/spring-utils</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>com.thelastimperial</groupId>
