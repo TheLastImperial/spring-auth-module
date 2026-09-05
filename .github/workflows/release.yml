@@ -81,5 +81,5 @@ jobs:
         draft: false
         prerelease: false
         files: |
-            src/auth/target/${{ env.AUTH_ARTEFACT }}-${{ env.AUTH_ARTEFACT }}.jar
-            src/domain/target/${{ env.DOMAIN_ARTEFACT }}-${{ env.DOMAIN_ARTEFACT }}.jar
+            src/auth/target/${{ env.AUTH_ARTEFACT }}-${{ env.VERSION }}.jar
+            src/domain/target/${{ env.DOMAIN_ARTEFACT }}-${{ env.VERSION }}.jar
