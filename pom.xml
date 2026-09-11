@@ -34,6 +34,10 @@
     <modules>
         <module>src/domain</module>
         <module>src/auth</module>
+		<module>src/oauthserver</module>
+		<module>src/testoauthserver</module>
+		<module>src/oauthclient</module>
+		<module>src/testoauthclient</module>
     </modules>
 	<distributionManagement>
 		<repository>
@@ -52,7 +56,7 @@
 		<dependency>
 			<groupId>com.thelastimperial</groupId>
 			<artifactId>utils</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

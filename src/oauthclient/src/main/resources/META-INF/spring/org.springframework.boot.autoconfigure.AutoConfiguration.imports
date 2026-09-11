@@ -1,0 +1,2 @@
+com.thelastimperial.auth.oauthclient.autoconfiguration.OAuthClientAutoConfiguration
+com.thelastimperial.auth.oauthclient.autoconfiguration.OAuthClientControllerAutoConfiguration
