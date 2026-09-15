@@ -19,7 +19,6 @@ public class TestOAuthClientConfig {
                 .anyRequest().authenticated()
             )
             .oauth2Login(Customizer.withDefaults())
-            .formLogin(Customizer.withDefaults())
             .build();
     }
 }

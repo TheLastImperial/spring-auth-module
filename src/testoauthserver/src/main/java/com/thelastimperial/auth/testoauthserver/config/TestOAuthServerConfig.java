@@ -46,6 +46,7 @@ public class TestOAuthServerConfig {
         http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/").hasRole("USER")
+            .requestMatchers("/clients/**").hasRole("USER")
             .requestMatchers("/css/auth/**","/js/auth/**","/auth/**").permitAll()
             .anyRequest().authenticated()
         )
@@ -64,12 +65,6 @@ public class TestOAuthServerConfig {
             .logoutSuccessUrl("/auth/login")
             .permitAll()
         );
-        // .exceptionHandling((exceptions) -> exceptions
-        //     .defaultAuthenticationEntryPointFor(
-        //         new LoginUrlAuthenticationEntryPoint("/auth/login"),
-        //         new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-        //     )
-        // );
         return http.build();
     }
 }
