@@ -14,7 +14,7 @@ public class OAuthClientConfig {
         return http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.GET, "/")
-                    .hasAnyAuthority("SCOPE_profile")
+                    .hasAnyAuthority("SCOPE_USER")
                 .requestMatchers("/error").permitAll()
                 .anyRequest().authenticated()
             )

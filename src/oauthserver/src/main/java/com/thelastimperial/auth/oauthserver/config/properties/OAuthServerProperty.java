@@ -12,4 +12,7 @@ import lombok.Data;
 public class OAuthServerProperty {
     @NestedConfigurationProperty
     private JWKProperty jwk;
+
+    @NestedConfigurationProperty
+    private ClientProperty newclient;
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 
 @Component
-@Data 
+@Data
 public class JWKProperty {
     private String id;
     private String publicKey;

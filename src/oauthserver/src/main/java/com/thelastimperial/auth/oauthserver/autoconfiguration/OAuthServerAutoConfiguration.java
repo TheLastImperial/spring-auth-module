@@ -9,10 +9,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 
 import com.nimbusds.jose.jwk.JWK;
@@ -21,8 +23,12 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.thelastimperial.auth.domain.repositories.UserRegisteredClientRepository;
 import com.thelastimperial.auth.oauthserver.config.properties.OAuthServerProperty;
+import com.thelastimperial.auth.oauthserver.services.OAuthClientService;
+import com.thelastimperial.auth.oauthserver.services.impl.OAuthClientServiceImpl;
 import com.thelastimperial.utils.crypto.JWKUtils;
+import com.thelastimperial.utils.services.UsernameService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,11 +95,24 @@ public class OAuthServerAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public JdbcRegisteredClientRepository getRegisteredClientRepository(
+    @ConditionalOnMissingBean(name="jdbcRegisteredClientRepository")
+    public JdbcRegisteredClientRepository jdbcRegisteredClientRepository(
         JdbcOperations jdbcOperations
     ){
         return new JdbcRegisteredClientRepository(jdbcOperations);
     }
-
+    @Bean
+    @ConditionalOnMissingBean(name="oAuthClientService")
+    public OAuthClientService oAuthClientService(
+        RegisteredClientRepository registeredClientRepository,
+        UserRegisteredClientRepository userRegisteredClientRepository,
+        UsernameService usernameService,
+        PasswordEncoder passwordEncoder,
+        OAuthServerProperty oAuthServerProperty
+    ) {
+        return new OAuthClientServiceImpl(
+            registeredClientRepository, userRegisteredClientRepository, usernameService,
+            passwordEncoder, oAuthServerProperty
+        );
+    }
 }
