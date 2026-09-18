@@ -14,6 +14,10 @@ import com.thelastimperial.utils.services.UsernameService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ *
+ * RecoveryServiceImpl implements logic to recovery account.
+*/
 @AllArgsConstructor
 @Slf4j
 public class RecoveryServiceImpl implements RecoveryService {

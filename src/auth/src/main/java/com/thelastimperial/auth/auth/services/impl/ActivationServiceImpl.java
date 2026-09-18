@@ -14,7 +14,10 @@ import com.thelastimperial.utils.services.AuditService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ *
+ * ActivationServiceImpl implements logic to activate new user.
+*/
 @AllArgsConstructor
 @Slf4j
 public class ActivationServiceImpl implements ActivationService{
@@ -47,10 +50,10 @@ public class ActivationServiceImpl implements ActivationService{
         activation.setUsed(true);
         activation.setActivatedAt(LocalDateTime.now());
 
-        
+
         userRepository.save(user);
         userActivationRepository.save(activation);
         activationAuditServiceImpl.save(user);
     }
-    
+
 }
