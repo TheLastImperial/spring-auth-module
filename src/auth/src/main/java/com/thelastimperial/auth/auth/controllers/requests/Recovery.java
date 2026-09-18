@@ -6,6 +6,10 @@ import groovy.transform.builder.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ *
+ * Recovery DTO to request a recovery account.
+*/
 @AllArgsConstructor
 @Builder
 @Data
