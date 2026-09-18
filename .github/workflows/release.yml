@@ -54,16 +54,8 @@ jobs:
     - name: Create notes for release from commits.
       id: release_notes
       run: |
-        # Search last tag
-        PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || true)
-        
-        if [ -z "$PREV_TAG" ]; then
-          echo "Not previus tag. Get all commits..."
-          CHANGELOG=$(git log --pretty=format:"* %s (%h)")
-        else
-          echo "Get commits from: $PREV_TAG..."
-          CHANGELOG=$(git log ${PREV_TAG}..HEAD --pretty=format:"* %s (%h)")
-        fi
+        echo "Reading CHANGELOG.md..."
+        CHANGELOG=$(cat CHANGELOG.md)
 
         # Save messages in multiline variable.
         EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
