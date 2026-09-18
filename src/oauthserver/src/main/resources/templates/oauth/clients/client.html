@@ -1,0 +1,53 @@
+<html layout:decorate="~{layouts/main}">
+<body>
+  <div layout:fragment="content">
+    <!-- START -->
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        <div class="mb-4">
+          <a th:href="@{/clients}" class="text-decoration-none text-muted">
+            <i class="bi bi-arrow-left me-1"></i> Back to OAuth2 Clients
+          </a>
+          <h1 class="h3 fw-bold mt-2">OAuth2 Client Created</h1>
+          <p class="text-muted mb-0">
+            Save the ClientId and Client Secret. The client secret will not be showed again.
+          </p>
+        </div>
+
+        <div class="form-container">
+          <form novalidate
+              th:object="${client}">
+            <div class="mb-3">
+              <label class="form-label">
+                Client ID
+              </label>
+              <input
+                readonly
+                type="text"
+                class="form-control"
+                required
+                maxlength="100"
+                th:field="*{clientId}">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">
+                Client Secret
+              </label>
+              <input
+                readonly
+                type="text"
+                class="form-control"
+                required
+                maxlength="100"
+                th:field="*{clientSecret}">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- END -->
+  </div>
+</body>
+</html>

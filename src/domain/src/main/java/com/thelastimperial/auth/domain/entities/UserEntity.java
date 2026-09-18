@@ -69,6 +69,9 @@ public class UserEntity implements Username {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserRecoveryEntity> recoveries;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserRegisteredClientEntity> registeredClients;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp

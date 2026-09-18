@@ -1,0 +1,83 @@
+<html layout:decorate="~{layouts/main}">
+<body>
+  <div layout:fragment="content">
+    <!-- START -->
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <a
+        class="btn btn-primary"
+        th:href="@{/clients/new}"
+      >
+        <i class="bi bi-plus-lg me-1"></i> New OAuth2 Client
+      </a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Client id</th>
+              <th>Post logout redirect uris</th>
+              <th>Expires at</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr th:each="client : ${clients.getContent}">
+              <td th:text="${client.clientId}"></td>
+              <td th:text="${client.postLogoutRedirectUris}"></td>
+              <td th:text="${client.clientSecretExpiresAt}"></td>
+              <td class="text-end">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PAGINATION -->
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 gap-2">
+        <span id="paginationInfo" class="text-muted small"
+          th:text="'Page ' + ${clients.getNumber + 1} + ' of ' + ${clients.getNumberOfElements + 1}">
+        </span>
+        <nav>
+          <ul class="pagination pagination-sm mb-0" id="pagination">
+            <li
+              class="page-item"
+              th:classappend="${clients.hasPrevious} ? '' : 'disabled'">
+              <a class="page-link" href="#" th:if="${not clients.hasPrevious}">
+                Previus
+              </a>
+              <a class="page-link" th:href="@{/clients?page={page}(page=${clients.getNumber})}"
+                th:if="${clients.hasPrevious}">
+                Previus
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" th:text="${clients.getNumber} + 1">
+              </a>
+            </li>
+            <li class="page-item"
+              th:classappend="${clients.hasNext} ? '' : 'disabled'">
+              <a class="page-link" href="#"
+                th:if="${not clients.hasNext}">
+                Next
+              </a>
+              <a class="page-link" th:href="@{/clients?page={page}(page=${clients.getNumber} + 2)}"
+                th:if="${clients.hasNext}" >
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+
+    </div>
+
+    <!-- END -->
+  </div>
+</body>
+</html>
