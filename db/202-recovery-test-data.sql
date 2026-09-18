@@ -23,10 +23,10 @@ INSERT INTO user_recoveries(
     valid_until_at, user_id
 )
 VALUES(
-    '2930b83d-354f-4d6e-b5e2-9ff7e01fce24', NOW(), 'f','', NOW(), '', NOW() - interval '60 minutes',
-    '029dffbe-d07e-7bfd-ab68-f566727ec57e'
+    '2930b83d-354f-4d6e-b5e2-9ff7e01fce24', NOW(), 'f','', NOW(), 'newpassword',
+    NOW() - interval '60 minutes', '029dffbe-d07e-7bfd-ab68-f566727ec57e'
 ),
 (
-    '2930b83d-354f-4d6e-b5e2-9ff7e01fce25', NOW(), 'f','', NOW(), '', NOW() + interval '10 minutes',
-    '029dffbe-d07e-7bfd-ab68-f566727ec57e'
+    '2930b83d-354f-4d6e-b5e2-9ff7e01fce25', NOW(), 'f','', NOW(), 'newpassword',
+    NOW() + interval '10 minutes', '029dffbe-d07e-7bfd-ab68-f566727ec57e'
 );
