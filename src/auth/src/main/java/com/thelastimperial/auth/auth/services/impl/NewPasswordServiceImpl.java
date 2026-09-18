@@ -19,6 +19,10 @@ import com.thelastimperial.utils.services.AuditService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ *
+ * NewPasswordServiceImpl implements logic to update credentials.
+*/
 @AllArgsConstructor
 @Slf4j
 public class NewPasswordServiceImpl implements NewPasswordService {
@@ -60,5 +64,5 @@ public class NewPasswordServiceImpl implements NewPasswordService {
         newPasswordAuditServiceImpl.save(user);
         newPasswordNotificationService.send(user);
     }
-    
+
 }

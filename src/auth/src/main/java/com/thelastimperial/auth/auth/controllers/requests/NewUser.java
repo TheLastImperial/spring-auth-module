@@ -9,6 +9,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *
+ * NewUser DTO to create new user.
+*/
 @AllArgsConstructor
 @Builder
 @Data

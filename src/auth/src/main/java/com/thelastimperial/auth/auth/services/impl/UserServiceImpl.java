@@ -12,6 +12,10 @@ import com.thelastimperial.utils.services.UsernameService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ *
+ * UserServiceImpl Get a user by username.
+*/
 @Service
 @Slf4j
 public class UserServiceImpl implements UsernameService {

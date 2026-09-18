@@ -10,6 +10,11 @@ import com.thelastimperial.auth.domain.repositories.UserRoleRepository;
 
 import lombok.AllArgsConstructor;
 
+/**
+ *
+ * DefaultUserRoleServiceImpl default roles to new user.
+ * Return the entities that have a default property on true.
+*/
 @AllArgsConstructor
 @Service
 public class DefaultUserRoleServiceImpl implements DefaultUserRoleService {

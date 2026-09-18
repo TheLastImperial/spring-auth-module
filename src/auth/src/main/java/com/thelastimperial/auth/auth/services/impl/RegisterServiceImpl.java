@@ -14,7 +14,10 @@ import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ *
+ * RegisterServiceImpl implements logic to register new user.
+*/
 @Slf4j
 public class RegisterServiceImpl implements RegisterService {
     private final PasswordEncoder passwordEncoder;
@@ -22,7 +25,7 @@ public class RegisterServiceImpl implements RegisterService {
     private final UserActivationRepository userActivationRepository;
     private final NotificationService registerNotificationService;
     private final DefaultUserRoleService defaultUserRoleService;
-    
+
     public RegisterServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository,
         UserActivationRepository userActivationRepository,
         NotificationService registerNotificationService,

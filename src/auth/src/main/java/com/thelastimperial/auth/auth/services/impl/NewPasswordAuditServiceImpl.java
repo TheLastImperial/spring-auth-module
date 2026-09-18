@@ -12,6 +12,10 @@ import com.thelastimperial.utils.services.AuditService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ *
+ * NewPasswordAuditServiceImpl save audit data of new password.
+*/
 @AllArgsConstructor
 @Slf4j
 public class NewPasswordAuditServiceImpl implements AuditService<UserEntity> {
