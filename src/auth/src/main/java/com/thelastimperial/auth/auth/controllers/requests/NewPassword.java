@@ -6,7 +6,10 @@ import com.thelastimperial.utils.annotations.EqualsStrings;
 import groovy.transform.builder.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
+/**
+ *
+ * NewPassword DTO to create new password.
+*/
 @AllArgsConstructor
 @Builder
 @Data
