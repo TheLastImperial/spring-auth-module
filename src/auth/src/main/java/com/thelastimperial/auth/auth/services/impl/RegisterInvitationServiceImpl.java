@@ -33,20 +33,7 @@ public class RegisterInvitationServiceImpl implements RegisterInvitationService 
         }
 
         UUID uuid = UUID.fromString(id);
-        Optional<UserInvitationEntity> invitationOpt = userInvitationRepository.findById(uuid);
-        if(invitationOpt.isPresent()){
-            if(invitationOpt.get().isUsed()) {
-                log.info("The invitation is used.");
-                invitationOpt = Optional.empty();
-            }
-            if(invitationOpt.get().getExpiredAt().isBefore(Instant.now())){
-                log.info("The invitation is expired.");
-                log.info("Invitation limit date: {}", invitationOpt.get().getExpiredAt());
-                log.info("Date: {}", Instant.now());
-                invitationOpt = Optional.empty();
-            }
-        }
-        return invitationOpt;
+        return userInvitationRepository.findById(uuid);
     }
 
     @Override

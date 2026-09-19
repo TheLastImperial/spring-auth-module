@@ -90,12 +90,6 @@ ALTER TABLE ONLY public.user_expiries
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT ukr43af9ap4edm43mmtq01oddj6 UNIQUE (username);
 
-ALTER TABLE ONLY public.user_invitations
-    ADD CONSTRAINT ukaja3yfjs4oqvvk1ljs209xhfd UNIQUE (guest_id);
-
-ALTER TABLE ONLY public.user_invitations
-    ADD CONSTRAINT ukq1uuxii5rhlmxlyp9edhd3e0g UNIQUE (host_id);
-
 ALTER TABLE ONLY public.user_actions
     ADD CONSTRAINT user_actions_pkey PRIMARY KEY (id);
 

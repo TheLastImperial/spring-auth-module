@@ -1,5 +1,6 @@
 package com.thelastimperial.auth.auth.services.impl;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -32,7 +33,18 @@ public class HandleRegisterServiceImpl implements  HandleRegisterService {
         if(isInvitation){
             invitation = registerInvitationService
                 .getInvitation(invitationId);
-            if(invitation.isEmpty()){
+            if(invitation.isPresent()){
+                if(invitation.get().isUsed()) {
+                    log.info("The invitation is used.");
+                    invitation = Optional.empty();
+                }
+                if(invitation.get().getExpiredAt().isBefore(Instant.now())){
+                    log.info("The invitation is expired.");
+                    log.info("Invitation limit date: {}", invitation.get().getExpiredAt());
+                    log.info("Date: {}", Instant.now());
+                    invitation = Optional.empty();
+                }
+            } else {
                 throw new RuntimeException("Not invitation id");
             }
         }

@@ -72,8 +72,8 @@ public class UserEntity implements Username {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserRegisteredClientEntity> registeredClients;
 
-    @OneToOne(mappedBy = "host", fetch = FetchType.LAZY)
-    private UserInvitationEntity host;
+    @OneToMany(mappedBy = "host", fetch = FetchType.LAZY)
+    private List<UserInvitationEntity> invitations;
     @OneToOne(mappedBy = "guest", fetch = FetchType.LAZY)
     private UserInvitationEntity guest;
 

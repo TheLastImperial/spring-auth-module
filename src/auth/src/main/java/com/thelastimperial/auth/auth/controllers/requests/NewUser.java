@@ -1,5 +1,6 @@
 package com.thelastimperial.auth.auth.controllers.requests;
 
+import com.thelastimperial.auth.auth.controllers.annotations.InvalidInvitation;
 import com.thelastimperial.utils.annotations.EnvPattern;
 import com.thelastimperial.utils.annotations.EqualsStrings;
 import com.thelastimperial.utils.annotations.UsernameExists;
@@ -36,5 +37,6 @@ public class NewUser {
     )
     private String password;
     private String passwordConfirmation;
+    @InvalidInvitation
     private String invitation;
 }

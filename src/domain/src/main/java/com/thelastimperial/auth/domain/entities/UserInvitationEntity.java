@@ -8,10 +8,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -37,8 +39,8 @@ public class UserInvitationEntity {
     /**
      * Who send the invitation.
     */
-   @OneToOne
-   @JoinColumn(name = "host_id", referencedColumnName = "id")
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "host_id")
     private UserEntity host;
     /**
      * Who receive the invitation.

@@ -19,91 +19,87 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(OrderAnnotation.class)
-public class RegisterTest {
+public class RegisterInvitationTest {
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @Order(1)
-    public void registerInvalidEmail() throws Exception {
+    @Order (1)
+    public void invitationBadUUIDFormat() throws Exception {
         mockMvc.perform(
             post("/auth/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
-            .param("username", "test@test")
+            .param("username", "anotheremail@mail.com")
             .param("password","1234asdfAS$")
             .param("passwordConfirmation", "1234asdfAS$")
-        )
-        .andExpect(status().isOk())
-        .andExpect(model().hasErrors())
-        .andExpect(model().attributeHasFieldErrors("newUser", "username"));
-    }
-
-    @Test
-    @Order(2)
-    public void registerInvalidPasswordPattern() throws Exception {
-        mockMvc.perform(
-            post("/auth/register")
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .with(csrf())
-            .param("username", "test@test.com")
-            .param("password","123412341")
-            .param("passwordConfirmation", "123412341")
-        )
-        .andExpect(status().isOk())
-        .andExpect(model().hasErrors())
-        .andExpect(model().attributeHasFieldErrors("newUser", "password"));
-    }
-
-    @Test
-    @Order(3)
-    public void registerInvalidPasswordMatch() throws Exception {
-        mockMvc.perform(
-            post("/auth/register")
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .with(csrf())
-            .param("username", "test@test.com")
-            .param("password","asdfA1.asdf")
-            .param("passwordConfirmation", "1234")
-        )
-        .andExpect(status().isOk())
-        .andExpect(model().hasErrors())
-        .andExpect(
-            model()
-                .attributeHasFieldErrors("newUser", "passwordConfirmation")
-        );
-    }
-    @Test
-    @Order(4)
-    public void registerNewUser() throws Exception {
-        mockMvc.perform(
-            post("/auth/register")
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .with(csrf())
-            .param("username", "tes@test.com")
-            .param("password","1234asdfAS$")
-            .param("passwordConfirmation", "1234asdfAS$")
-        )
-        .andExpect(status().isOk());
-    }
-
-    @Test
-    @Order(5)
-    public void registerUserExists() throws Exception {
-        mockMvc.perform(
-            post("/auth/register")
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-            .with(csrf())
-            .param("username", "tes@test.com")
-            .param("password","1234asdfAS$")
-            .param("passwordConfirmation", "1234asdfAS$")
+            .param("invitation", "dd42630f-ZXCV-473d-asd")
         )
         .andExpect(status().isOk())
         .andExpect(model().hasErrors())
         .andExpect(
             model()
                 .attributeHasFieldErrorCode(
-                    "newUser", "username", "UsernameExists"
+                    "newUser", "invitation", "InvalidInvitation"
+                )
+        );
+    }
+    @Test
+    @Order (2)
+    public void invitationExpired() throws Exception {
+        mockMvc.perform(
+            post("/auth/register")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .with(csrf())
+            .param("username", "anotheremail@mail.com")
+            .param("password","1234asdfAS$")
+            .param("passwordConfirmation", "1234asdfAS$")
+            .param("invitation", "ad42630f-0b7f-473d-8c8d-8b2dabb8c0d4")
+        )
+        .andExpect(status().isOk())
+        .andExpect(model().hasErrors())
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    "newUser", "invitation", "InvalidInvitation"
+                )
+        );
+    }
+
+    @Test
+    @Order (3)
+    public void registerNewUserWithInvitation() throws Exception {
+        mockMvc.perform(
+            post("/auth/register")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .with(csrf())
+            .param("username", "anotheremail@mail.com")
+            .param("password","1234asdfAS$")
+            .param("passwordConfirmation", "1234asdfAS$")
+            .param("invitation", "dd42630f-0b7f-473d-8c8d-8b2dabb8c0d4")
+        )
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order (4)
+    public void invitationUsed() throws Exception {
+        mockMvc.perform(
+            post("/auth/register")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .with(csrf())
+            .param("username", "anotheremail@mail.com")
+            .param("password","1234asdfAS$")
+            .param("passwordConfirmation", "1234asdfAS$")
+            .param("invitation", "dd42630f-0b7f-473d-8c8d-8b2dabb8c0d4")
+        )
+        .andExpect(status().isOk())
+        .andExpect(model().hasErrors())
+        .andExpect(
+            model()
+                .attributeHasFieldErrorCode(
+                    "newUser", "invitation", "InvalidInvitation"
                 )
         );
     }
