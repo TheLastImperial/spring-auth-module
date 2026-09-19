@@ -1,6 +1,7 @@
 package com.thelastimperial.auth.auth.services;
 
 import com.thelastimperial.auth.auth.controllers.requests.NewUser;
+import com.thelastimperial.auth.domain.entities.UserEntity;
 
 /**
  *
@@ -10,6 +11,7 @@ public interface RegisterService {
     /**
      * Register a new user.
      * @param newUser Data of the new user.
+     * @return the user created.
     */
-    public void register(NewUser newUser);
+    public UserEntity register(NewUser newUser);
 }

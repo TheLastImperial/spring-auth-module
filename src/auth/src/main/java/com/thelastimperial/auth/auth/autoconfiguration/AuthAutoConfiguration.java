@@ -18,14 +18,17 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.thelastimperial.auth.auth.services.ActivationService;
 import com.thelastimperial.auth.auth.services.DefaultUserRoleService;
+import com.thelastimperial.auth.auth.services.HandleRegisterService;
 import com.thelastimperial.auth.auth.services.NewPasswordService;
 import com.thelastimperial.auth.auth.services.NotificationService;
 import com.thelastimperial.auth.auth.services.RecoveryService;
+import com.thelastimperial.auth.auth.services.RegisterInvitationService;
 import com.thelastimperial.auth.auth.services.RegisterService;
 import com.thelastimperial.auth.auth.services.impl.ActivationAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.ActivationServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.DefaultNotificationServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.DefaultUserRoleServiceImpl;
+import com.thelastimperial.auth.auth.services.impl.HandleRegisterServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RecoveryServiceImpl;
@@ -36,6 +39,7 @@ import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
 import com.thelastimperial.auth.domain.repositories.UserAuditRepository;
+import com.thelastimperial.auth.domain.repositories.UserInvitationRepository;
 import com.thelastimperial.auth.domain.repositories.UserRecoveryRepository;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 import com.thelastimperial.auth.domain.repositories.UserRoleRepository;
@@ -126,7 +130,7 @@ public class AuthAutoConfiguration {
         UserActivationRepository userActivationRepository, UserRepository userRepository,
         AuditService<UserEntity> activationAuditServiceImpl
     ) {
-        return new ActivationServiceImpl(userActivationRepository, userRepository, 
+        return new ActivationServiceImpl(userActivationRepository, userRepository,
             activationAuditServiceImpl
         );
     }
@@ -155,16 +159,24 @@ public class AuthAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RegisterService registerServiceImpl(PasswordEncoder passwordEncoder, 
-        UserRepository userRepository, 
+    public RegisterService registerServiceImpl(PasswordEncoder passwordEncoder,
+        UserRepository userRepository,
         UserActivationRepository userActivationRepository,
         NotificationService<?> registerNotificationService,
         DefaultUserRoleService defaultUserRoleService
     ) {
-        return new RegisterServiceImpl(passwordEncoder, userRepository, 
+        return new RegisterServiceImpl(passwordEncoder, userRepository,
             userActivationRepository, registerNotificationService,
             defaultUserRoleService
             );
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public HandleRegisterService handleRegisterService(RegisterService registerService,
+        RegisterInvitationService registerInvitationService
+    ) {
+        return new HandleRegisterServiceImpl(registerService, registerInvitationService);
     }
 
     @Bean

@@ -39,7 +39,7 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public void register(NewUser newUser) {
+    public UserEntity register(NewUser newUser) {
         List<UserRoleEntity> roles = defaultUserRoleService.getDefaultRoles();
         UserEntity toSave = UserEntity.builder()
             .username(newUser.getUsername())
@@ -53,6 +53,7 @@ public class RegisterServiceImpl implements RegisterService {
             .build();
         UserActivationEntity activation = userActivationRepository.save(toSaveAct);
         registerNotificationService.send(activation);
+        return user;
     }
 
 }

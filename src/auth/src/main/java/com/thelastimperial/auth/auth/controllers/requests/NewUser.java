@@ -36,4 +36,5 @@ public class NewUser {
     )
     private String password;
     private String passwordConfirmation;
+    private String invitation;
 }
