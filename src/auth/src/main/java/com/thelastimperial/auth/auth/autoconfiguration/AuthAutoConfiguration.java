@@ -39,7 +39,6 @@ import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
 import com.thelastimperial.auth.domain.repositories.UserAuditRepository;
-import com.thelastimperial.auth.domain.repositories.UserInvitationRepository;
 import com.thelastimperial.auth.domain.repositories.UserRecoveryRepository;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 import com.thelastimperial.auth.domain.repositories.UserRoleRepository;

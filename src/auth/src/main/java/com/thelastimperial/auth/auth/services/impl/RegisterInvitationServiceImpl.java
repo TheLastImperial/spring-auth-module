@@ -27,8 +27,8 @@ public class RegisterInvitationServiceImpl implements RegisterInvitationService 
 
     @Override
     public Optional<UserInvitationEntity> getInvitation(String id) {
-        if(UUIDUtils.isValid(id)){
-            log.error("UUID bad formet: {}", id);
+        if(!UUIDUtils.isValid(id)){
+            log.error("UUID bad format: {}", id);
             return Optional.empty();
         }
 
@@ -39,8 +39,10 @@ public class RegisterInvitationServiceImpl implements RegisterInvitationService 
                 log.info("The invitation is used.");
                 invitationOpt = Optional.empty();
             }
-            if(invitationOpt.get().getExpiredAt().isAfter(Instant.now())){
+            if(invitationOpt.get().getExpiredAt().isBefore(Instant.now())){
                 log.info("The invitation is expired.");
+                log.info("Invitation limit date: {}", invitationOpt.get().getExpiredAt());
+                log.info("Date: {}", Instant.now());
                 invitationOpt = Optional.empty();
             }
         }

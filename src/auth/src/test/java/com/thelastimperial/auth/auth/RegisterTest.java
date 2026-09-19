@@ -107,4 +107,18 @@ public class RegisterTest {
                 )
         );
     }
+    @Test
+    @Order(6)
+    public void registerNewUserWithInvitation() throws Exception {
+        mockMvc.perform(
+            post("/auth/register")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .with(csrf())
+            .param("username", "anotheremail@mail.com")
+            .param("password","1234asdfAS$")
+            .param("passwordConfirmation", "1234asdfAS$")
+            .param("invitation", "dd42630f-0b7f-473d-8c8d-8b2dabb8c0d4")
+        )
+        .andExpect(status().isOk());
+    }
 }
