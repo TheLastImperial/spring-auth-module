@@ -57,6 +57,7 @@ public class NewPasswordServiceImpl implements NewPasswordService {
         recovery.setLastPassword(user.getPassword());
         recovery.setUsed(true);
         user.setPassword(passwordEncoder.encode(newPassword.getPassword()));
+        user.setCredentialsNonExpired(true);
         log.debug("New user password set: " + user.getId());
 
         userRepository.save(user);

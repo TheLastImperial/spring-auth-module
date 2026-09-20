@@ -70,6 +70,17 @@ CREATE TABLE public.users (
     username character varying(255) NOT NULL
 );
 
+CREATE TABLE public.user_invitations (
+    id uuid NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    expired_at timestamp(6) with time zone,
+    is_used boolean DEFAULT false NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL,
+    username character varying(255),
+    guest_id uuid,
+    host_id uuid
+);
+
 ALTER TABLE ONLY public.user_role
     ADD CONSTRAINT uk872xec3woupu3gw59b04pj3sa UNIQUE (user_id, role_id);
 
@@ -99,6 +110,15 @@ ALTER TABLE ONLY public.user_roles
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.user_invitations
+    ADD CONSTRAINT user_invitations_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.user_invitations
+    ADD CONSTRAINT fkcaip2ix6736fdknl21s8mjgkv FOREIGN KEY (guest_id) REFERENCES public.users(id);
+
+ALTER TABLE ONLY public.user_invitations
+    ADD CONSTRAINT fkmycleaa3d3usettd28jb4phq FOREIGN KEY (host_id) REFERENCES public.users(id);
 
 ALTER TABLE ONLY public.user_expiries
     ADD CONSTRAINT fk6w5wraqtinh6cfa7qy10jv35 FOREIGN KEY (user_id) REFERENCES public.users(id);

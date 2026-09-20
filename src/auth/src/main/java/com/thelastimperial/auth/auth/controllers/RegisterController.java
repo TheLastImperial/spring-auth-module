@@ -3,9 +3,10 @@ package com.thelastimperial.auth.auth.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.thelastimperial.auth.auth.controllers.requests.NewUser;
-import com.thelastimperial.auth.auth.services.RegisterService;
+import com.thelastimperial.auth.auth.handlers.RegisterHandler;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping(path = "/auth/register")
 public class RegisterController {
-    private final RegisterService registerService;
+    private final RegisterHandler registerHandler;
 
     /**
      * Form to register a new user.
@@ -29,7 +30,9 @@ public class RegisterController {
      * @return
     */
     @GetMapping
-    public String register(NewUser newUser) {
+    public String register(NewUser newUser, @RequestParam String invitation) {
+        if(invitation != null)
+            newUser.setInvitation(invitation);
         return "auth/register";
     }
     /**
@@ -43,7 +46,7 @@ public class RegisterController {
         if(result.hasErrors()){
             return "auth/register";
         }
-        registerService.register(newUser);
+        registerHandler.register(newUser);
         return "auth/notify-register";
     }
 

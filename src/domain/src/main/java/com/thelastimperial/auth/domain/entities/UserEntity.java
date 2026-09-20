@@ -72,6 +72,11 @@ public class UserEntity implements Username {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserRegisteredClientEntity> registeredClients;
 
+    @OneToMany(mappedBy = "host", fetch = FetchType.LAZY)
+    private List<UserInvitationEntity> invitations;
+    @OneToOne(mappedBy = "guest", fetch = FetchType.LAZY)
+    private UserInvitationEntity guest;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
