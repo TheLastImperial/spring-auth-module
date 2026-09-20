@@ -12,8 +12,8 @@ import com.thelastimperial.auth.auth.controllers.NewPasswordController;
 import com.thelastimperial.auth.auth.controllers.RecoveryController;
 import com.thelastimperial.auth.auth.controllers.RegisterController;
 import com.thelastimperial.auth.auth.handlers.RecoveryHandler;
+import com.thelastimperial.auth.auth.handlers.RegisterHandler;
 import com.thelastimperial.auth.auth.services.ActivationService;
-import com.thelastimperial.auth.auth.services.HandleRegisterService;
 import com.thelastimperial.auth.auth.services.NewPasswordService;
 
 @AutoConfiguration
@@ -45,8 +45,8 @@ public class AuthControllerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name="registerController")
-    public RegisterController registerController(HandleRegisterService handleRegisterService) {
-        return new RegisterController(handleRegisterService);
+    public RegisterController registerController(RegisterHandler registerHandler) {
+        return new RegisterController(registerHandler);
     }
 
     @Bean

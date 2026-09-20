@@ -43,8 +43,7 @@ public class RecoveryServiceImpl implements RecoveryService {
                 .isUsed(false)
                 .build();
         }
-        UserRecoveryEntity saved = userRecoveryRepository.save(toSave);
-        return saved;
+        return userRecoveryRepository.save(toSave);
     }
 
 }

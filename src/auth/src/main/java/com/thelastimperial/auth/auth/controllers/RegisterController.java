@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.thelastimperial.auth.auth.controllers.requests.NewUser;
-import com.thelastimperial.auth.auth.services.HandleRegisterService;
+import com.thelastimperial.auth.auth.handlers.RegisterHandler;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping(path = "/auth/register")
 public class RegisterController {
-    private final HandleRegisterService handleRegisterService;
+    private final RegisterHandler registerHandler;
 
     /**
      * Form to register a new user.
@@ -46,7 +46,7 @@ public class RegisterController {
         if(result.hasErrors()){
             return "auth/register";
         }
-        handleRegisterService.register(newUser);
+        registerHandler.register(newUser);
         return "auth/notify-register";
     }
 

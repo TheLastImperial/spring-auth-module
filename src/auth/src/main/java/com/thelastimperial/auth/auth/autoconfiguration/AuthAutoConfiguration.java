@@ -17,10 +17,10 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.thelastimperial.auth.auth.handlers.CustomAuthenticationFailureHandler;
+import com.thelastimperial.auth.auth.handlers.RegisterHandler;
 import com.thelastimperial.auth.auth.handlers.RecoveryHandler;
 import com.thelastimperial.auth.auth.services.ActivationService;
 import com.thelastimperial.auth.auth.services.DefaultUserRoleService;
-import com.thelastimperial.auth.auth.services.HandleRegisterService;
 import com.thelastimperial.auth.auth.services.NewPasswordService;
 import com.thelastimperial.auth.auth.services.NotificationService;
 import com.thelastimperial.auth.auth.services.RecoveryService;
@@ -30,7 +30,6 @@ import com.thelastimperial.auth.auth.services.impl.ActivationAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.ActivationServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.DefaultNotificationServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.DefaultUserRoleServiceImpl;
-import com.thelastimperial.auth.auth.services.impl.HandleRegisterServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RecoveryServiceImpl;
@@ -89,7 +88,9 @@ public class AuthAutoConfiguration {
         http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/").hasRole("USER")
-            .requestMatchers("/css/auth/**","/js/auth/**","/auth/**", "/error").permitAll()
+            .requestMatchers(
+                "/css/auth/**","/js/auth/**","/auth/**", "/error"
+            ).permitAll()
         )
         .formLogin( login -> login
             .loginPage("/auth/login")
@@ -168,22 +169,25 @@ public class AuthAutoConfiguration {
     @ConditionalOnMissingBean
     public RegisterService registerServiceImpl(PasswordEncoder passwordEncoder,
         UserRepository userRepository,
-        UserActivationRepository userActivationRepository,
-        NotificationService<?> registerNotificationService,
         DefaultUserRoleService defaultUserRoleService
     ) {
-        return new RegisterServiceImpl(passwordEncoder, userRepository,
-            userActivationRepository, registerNotificationService,
-            defaultUserRoleService
-            );
+        return new RegisterServiceImpl(
+            passwordEncoder, userRepository, defaultUserRoleService
+        );
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public HandleRegisterService handleRegisterService(RegisterService registerService,
-        RegisterInvitationService registerInvitationService
+    public RegisterHandler handleRegisterService(
+        RegisterService registerService,
+        RegisterInvitationService registerInvitationService,
+        UserActivationRepository userActivationRepository,
+        NotificationService registerNotificationService
     ) {
-        return new HandleRegisterServiceImpl(registerService, registerInvitationService);
+        return new RegisterHandler(
+            registerService, registerInvitationService,
+            userActivationRepository, registerNotificationService
+        );
     }
 
     @Bean
