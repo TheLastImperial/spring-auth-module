@@ -4,6 +4,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -70,5 +71,16 @@ public class LoginTest {
         .andExpect(status().is3xxRedirection())
         .andExpect(cookie().exists("remember-me"));
     }
-
+    public void loginWithExpiredCredentials() throws Exception {
+        mockMvc.perform(
+            post("/auth/login")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .with(csrf())
+            .param("username", "expired@user.com")
+            .param("password","1234")
+            .param("remember-me","false")
+        )
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrlPattern("/auth/new-password/*"));
+    }
 }

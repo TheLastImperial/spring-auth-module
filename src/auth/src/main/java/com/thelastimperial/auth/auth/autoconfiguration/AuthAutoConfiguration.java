@@ -16,6 +16,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.thelastimperial.auth.auth.handlers.CustomAuthenticationFailureHandler;
+import com.thelastimperial.auth.auth.handlers.RecoveryHandler;
 import com.thelastimperial.auth.auth.services.ActivationService;
 import com.thelastimperial.auth.auth.services.DefaultUserRoleService;
 import com.thelastimperial.auth.auth.services.HandleRegisterService;
@@ -82,16 +84,17 @@ public class AuthAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
-        RememberMeServices rememberMeServices
+        RememberMeServices rememberMeServices, RecoveryService recoveryService
     ) {
         http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/").hasRole("USER")
-            .requestMatchers("/css/auth/**","/js/auth/**","/auth/**").permitAll()
+            .requestMatchers("/css/auth/**","/js/auth/**","/auth/**", "/error").permitAll()
         )
         .formLogin( login -> login
             .loginPage("/auth/login")
             .failureUrl("/auth/login?error=true")
+            .failureHandler(new CustomAuthenticationFailureHandler(recoveryService))
             .defaultSuccessUrl("/", true)
             .permitAll()
         )
@@ -149,13 +152,18 @@ public class AuthAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public RecoveryService recoveryServiceImpl(UserRecoveryRepository userRecoveryRepository,
-        UsernameService usernameService, NotificationService<?> recoveryNotificationService
+        UsernameService usernameService
     ) {
-        return new RecoveryServiceImpl(userRecoveryRepository, usernameService,
-                recoveryNotificationService
-            );
+        return new RecoveryServiceImpl(userRecoveryRepository, usernameService);
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public RecoveryHandler recoveryHandler(RecoveryService recoveryService,
+        NotificationService<?> recoveryNotificationService
+    ){
+        return new RecoveryHandler(recoveryService, recoveryNotificationService);
+    }
     @Bean
     @ConditionalOnMissingBean
     public RegisterService registerServiceImpl(PasswordEncoder passwordEncoder,

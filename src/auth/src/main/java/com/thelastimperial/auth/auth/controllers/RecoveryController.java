@@ -5,7 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thelastimperial.auth.auth.controllers.requests.Recovery;
-import com.thelastimperial.auth.auth.services.RecoveryService;
+import com.thelastimperial.auth.auth.handlers.RecoveryHandler;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping(path = "/auth/recovery")
 public class RecoveryController {
-    private final RecoveryService recoveryService;
+    private final RecoveryHandler recoveryHandler;
 
     /**
      * Form to request a recovery
@@ -43,7 +43,7 @@ public class RecoveryController {
         if(result.hasErrors()){
             return "auth/recovery";
         }
-        recoveryService.generate(recovery);
+        recoveryHandler.generate(recovery);
         return "redirect:/auth/recovery?generated=true";
     }
 

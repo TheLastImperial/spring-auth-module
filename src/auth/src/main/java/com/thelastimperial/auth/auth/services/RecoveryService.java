@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.auth.services;
 
-import com.thelastimperial.auth.auth.controllers.requests.Recovery;
+import com.thelastimperial.auth.domain.entities.UserRecoveryEntity;
 /**
  *
  * RecoveryService interface to create recovery request.
@@ -8,7 +8,8 @@ import com.thelastimperial.auth.auth.controllers.requests.Recovery;
 public interface RecoveryService {
     /**
      * Generate recovery credentials.
-     * @param recovery data needed to create recovery request.
+     * @param username to create recovery.
+     * @return UserRecoveryEntity
     */
-    public void generate(Recovery recovery);
+    public UserRecoveryEntity generate(String username);
 }

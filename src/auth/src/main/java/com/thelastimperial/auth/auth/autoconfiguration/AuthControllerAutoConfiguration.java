@@ -11,10 +11,10 @@ import com.thelastimperial.auth.auth.controllers.LoginController;
 import com.thelastimperial.auth.auth.controllers.NewPasswordController;
 import com.thelastimperial.auth.auth.controllers.RecoveryController;
 import com.thelastimperial.auth.auth.controllers.RegisterController;
+import com.thelastimperial.auth.auth.handlers.RecoveryHandler;
 import com.thelastimperial.auth.auth.services.ActivationService;
 import com.thelastimperial.auth.auth.services.HandleRegisterService;
 import com.thelastimperial.auth.auth.services.NewPasswordService;
-import com.thelastimperial.auth.auth.services.RecoveryService;
 
 @AutoConfiguration
 @AutoConfigureAfter(AuthAutoConfiguration.class)
@@ -39,8 +39,8 @@ public class AuthControllerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name="recoveryController")
-    public RecoveryController recoveryController(RecoveryService recoveryService){
-        return new RecoveryController(recoveryService);
+    public RecoveryController recoveryController(RecoveryHandler recoveryHandler){
+        return new RecoveryController(recoveryHandler);
     }
 
     @Bean
