@@ -14,7 +14,7 @@ import com.thelastimperial.utils.entities.AuditWrapper;
 import com.thelastimperial.utils.services.AuditService;
 
 @Service
-public class LockUnlockAuditServiceImpl implements  AuditService<AuditWrapper<UserEntity>> {
+public class LockUnlockAuditServiceImpl implements AuditService<AuditWrapper<UserEntity>> {
     private final UserAuditRepository userAuditRepository;
     private final UserActionRepository userActionRepository;
     private String ACTIVATION_ID = "ACCOUNT_LOCKED|ACCOUNT_UNLOCKED";

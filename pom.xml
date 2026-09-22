@@ -39,6 +39,7 @@
         <module>src/testoauthserver</module>
         <module>src/oauthclient</module>
         <module>src/testoauthclient</module>
+		<module>src/testadmin</module>
     </modules>
 	<distributionManagement>
 		<repository>

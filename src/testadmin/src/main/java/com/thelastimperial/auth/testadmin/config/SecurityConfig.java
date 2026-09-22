@@ -1,6 +1,4 @@
-package com.thelastimperial.auth.admin.config;
-
-import java.beans.BeanProperty;
+package com.thelastimperial.auth.testadmin.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +12,7 @@ import com.thelastimperial.auth.auth.services.RecoveryService;
 @Configuration
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
+    public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http,
         RememberMeServices rememberMeServices, RecoveryService recoveryService
     ) {
         http
