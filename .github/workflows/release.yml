@@ -51,6 +51,27 @@ jobs:
         echo "DOMAIN_ARTEFACT=$DOMAIN_ARTEFACT" >> $GITHUB_ENV
         echo "Domain Artefact ID: $DOMAIN_ARTEFACT"
 
+    - name: Get Admin ArtefactId
+      id: get_admin_artefact_id
+      run: |
+        ADMIN_ARTEFACT=$(mvn -f src/admin/pom.xml help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+        echo "ADMIN_ARTEFACT=$ADMIN_ARTEFACT" >> $GITHUB_ENV
+        echo "Admin Artefact ID: $ADMIN_ARTEFACT"
+
+    - name: Get OAuth Server ArtefactId
+      id: get_oauthserver_artefact_id
+      run: |
+        OAUTHSERVER_ARTEFACT=$(mvn -f src/oauthserver/pom.xml help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+        echo "OAUTHSERVER_ARTEFACT=$OAUTHSERVER_ARTEFACT" >> $GITHUB_ENV
+        echo "OAuth Server Artefact ID: $OAUTHSERVER_ARTEFACT"
+
+    - name: Get OAuth Client ArtefactId
+      id: get_oauthclient_artefact_id
+      run: |
+        OAUTHCLIENT_ARTEFACT=$(mvn -f src/oauthclient/pom.xml help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+        echo "OAUTHCLIENT_ARTEFACT=$OAUTHCLIENT_ARTEFACT" >> $GITHUB_ENV
+        echo "OAuth Client Artefact ID: $OAUTHCLIENT_ARTEFACT"
+
     - name: Create notes for release from commits.
       id: release_notes
       run: |
@@ -75,3 +96,7 @@ jobs:
         files: |
             src/auth/target/${{ env.AUTH_ARTEFACT }}-${{ env.VERSION }}.jar
             src/domain/target/${{ env.DOMAIN_ARTEFACT }}-${{ env.VERSION }}.jar
+            src/admin/target/${{ env.ADMIN_ARTEFACT }}-${{ env.VERSION }}.jar
+            src/oauthserver/target/${{ env.OAUTHSERVER_ARTEFACT }}-${{ env.VERSION }}.jar
+            src/oauthclient/target/${{ env.OAUTHCLIENT_ARTEFACT }}-${{ env.VERSION }}.jar
+
