@@ -218,22 +218,4 @@ public class AuthAutoConfiguration {
         return new UserDetailsServiceImpl(usernameService);
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public DefaultUserRoleService defaultUserRoleService(UserRoleRepository userRoleRepository) {
-        return new DefaultUserRoleServiceImpl(userRoleRepository);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public UsernameService userServiceImpl(UserRepository userRepository) {
-        return new UserServiceImpl(userRepository);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public UserDetailsService userDetailsServiceImpl(UsernameService usernameService) {
-        return new UserDetailsServiceImpl(usernameService);
-    }
-
 }
