@@ -11,7 +11,10 @@ import com.thelastimperial.utils.services.AuditService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ *
+ * ActivationAuditServiceImpl save audit for activations
+*/
 @AllArgsConstructor
 @Slf4j
 public class ActivationAuditServiceImpl implements AuditService<UserEntity> {
@@ -35,5 +38,5 @@ public class ActivationAuditServiceImpl implements AuditService<UserEntity> {
         log.info("Audit to save: " + toSave);
         userAuditRepository.save(toSave);
     }
-    
+
 }

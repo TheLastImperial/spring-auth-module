@@ -18,6 +18,10 @@ import com.thelastimperial.utils.services.UsernameService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ *
+ * UserDetailsServiceImpl default UserDetailsService.
+*/
 @Service
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -42,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             .getRoles().stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .collect(Collectors.toSet());
-        
+
         User userDetails =  new User(
             user.getId().toString(),
             user.getPassword(),
@@ -56,5 +60,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.debug("UserDetails: {}", userDetails);
         return userDetails;
     }
-    
+
 }

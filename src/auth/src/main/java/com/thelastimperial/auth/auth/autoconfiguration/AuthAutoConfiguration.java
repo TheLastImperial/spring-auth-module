@@ -16,11 +16,15 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.thelastimperial.auth.auth.handlers.CustomAuthenticationFailureHandler;
+import com.thelastimperial.auth.auth.handlers.RegisterHandler;
+import com.thelastimperial.auth.auth.handlers.RecoveryHandler;
 import com.thelastimperial.auth.auth.services.ActivationService;
 import com.thelastimperial.auth.auth.services.DefaultUserRoleService;
 import com.thelastimperial.auth.auth.services.NewPasswordService;
 import com.thelastimperial.auth.auth.services.NotificationService;
 import com.thelastimperial.auth.auth.services.RecoveryService;
+import com.thelastimperial.auth.auth.services.RegisterInvitationService;
 import com.thelastimperial.auth.auth.services.RegisterService;
 import com.thelastimperial.auth.auth.services.impl.ActivationAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.ActivationServiceImpl;
@@ -29,6 +33,7 @@ import com.thelastimperial.auth.auth.services.impl.DefaultUserRoleServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RecoveryServiceImpl;
+import com.thelastimperial.auth.auth.services.impl.RegisterInvitationServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RegisterServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserDetailsServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserServiceImpl;
@@ -36,6 +41,7 @@ import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
 import com.thelastimperial.auth.domain.repositories.UserAuditRepository;
+import com.thelastimperial.auth.domain.repositories.UserInvitationRepository;
 import com.thelastimperial.auth.domain.repositories.UserRecoveryRepository;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 import com.thelastimperial.auth.domain.repositories.UserRoleRepository;
@@ -79,16 +85,19 @@ public class AuthAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
-        RememberMeServices rememberMeServices
+        RememberMeServices rememberMeServices, RecoveryService recoveryService
     ) {
         http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/").hasRole("USER")
-            .requestMatchers("/css/auth/**","/js/auth/**","/auth/**").permitAll()
+            .requestMatchers(
+                "/css/auth/**","/js/auth/**","/auth/**", "/error"
+            ).permitAll()
         )
         .formLogin( login -> login
             .loginPage("/auth/login")
             .failureUrl("/auth/login?error=true")
+            .failureHandler(new CustomAuthenticationFailureHandler(recoveryService))
             .defaultSuccessUrl("/", true)
             .permitAll()
         )
@@ -126,7 +135,7 @@ public class AuthAutoConfiguration {
         UserActivationRepository userActivationRepository, UserRepository userRepository,
         AuditService<UserEntity> activationAuditServiceImpl
     ) {
-        return new ActivationServiceImpl(userActivationRepository, userRepository, 
+        return new ActivationServiceImpl(userActivationRepository, userRepository,
             activationAuditServiceImpl
         );
     }
@@ -146,25 +155,49 @@ public class AuthAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public RecoveryService recoveryServiceImpl(UserRecoveryRepository userRecoveryRepository,
-        UsernameService usernameService, NotificationService<?> recoveryNotificationService
+        UsernameService usernameService
     ) {
-        return new RecoveryServiceImpl(userRecoveryRepository, usernameService,
-                recoveryNotificationService
-            );
+        return new RecoveryServiceImpl(userRecoveryRepository, usernameService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public RegisterService registerServiceImpl(PasswordEncoder passwordEncoder, 
-        UserRepository userRepository, 
-        UserActivationRepository userActivationRepository,
-        NotificationService<?> registerNotificationService,
+    public RecoveryHandler recoveryHandler(RecoveryService recoveryService,
+        NotificationService<?> recoveryNotificationService
+    ){
+        return new RecoveryHandler(recoveryService, recoveryNotificationService);
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public RegisterService registerServiceImpl(PasswordEncoder passwordEncoder,
+        UserRepository userRepository,
         DefaultUserRoleService defaultUserRoleService
     ) {
-        return new RegisterServiceImpl(passwordEncoder, userRepository, 
-            userActivationRepository, registerNotificationService,
-            defaultUserRoleService
-            );
+        return new RegisterServiceImpl(
+            passwordEncoder, userRepository, defaultUserRoleService
+        );
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RegisterInvitationService registerInvitationService(
+        UserInvitationRepository userInvitationRepository
+    ) {
+        return new RegisterInvitationServiceImpl(userInvitationRepository);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RegisterHandler handleRegisterService(
+        RegisterService registerService,
+        RegisterInvitationService registerInvitationService,
+        UserActivationRepository userActivationRepository,
+        NotificationService registerNotificationService
+    ) {
+        return new RegisterHandler(
+            registerService, registerInvitationService,
+            userActivationRepository, registerNotificationService
+        );
     }
 
     @Bean
