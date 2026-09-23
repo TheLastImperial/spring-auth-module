@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.thelastimperial.auth</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.3.0</version>
+	<version>1.3.1</version>
     <packaging>pom</packaging>
 	<name>Parent</name>
 	<description/>
@@ -33,12 +33,12 @@
     <modules>
         <module>src/domain</module>
         <module>src/auth</module>
-		<module>src/admin</module>
+        <module>src/admin</module>
         <module>src/oauthserver</module>
         <module>src/testoauthserver</module>
         <module>src/oauthclient</module>
         <module>src/testoauthclient</module>
-		<module>src/testadmin</module>
+        <module>src/testadmin</module>
     </modules>
 	<distributionManagement>
 		<repository>

@@ -1,13 +1,11 @@
 # Changelog
 
-Version 1.3.0
-
-## OAuth
-Register invitation
-Update password for expired credentials.
-Javadoc
-Register and Recovery handler added.
+Version 1.3.1
 
 ## Admin
 
-Added a admin module to administrate users.
+Deleted maven-spring-plugin
+
+## Action
+
+Added artefacts admin, oauthserver and oauthclient.
