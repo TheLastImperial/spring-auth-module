@@ -33,6 +33,7 @@ import com.thelastimperial.auth.auth.services.impl.DefaultUserRoleServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordAuditServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.NewPasswordServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RecoveryServiceImpl;
+import com.thelastimperial.auth.auth.services.impl.RegisterInvitationServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.RegisterServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserDetailsServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserServiceImpl;
@@ -40,6 +41,7 @@ import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
 import com.thelastimperial.auth.domain.repositories.UserAuditRepository;
+import com.thelastimperial.auth.domain.repositories.UserInvitationRepository;
 import com.thelastimperial.auth.domain.repositories.UserRecoveryRepository;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 import com.thelastimperial.auth.domain.repositories.UserRoleRepository;
@@ -174,6 +176,14 @@ public class AuthAutoConfiguration {
         return new RegisterServiceImpl(
             passwordEncoder, userRepository, defaultUserRoleService
         );
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RegisterInvitationService registerInvitationService(
+        UserInvitationRepository userInvitationRepository
+    ) {
+        return new RegisterInvitationServiceImpl(userInvitationRepository);
     }
 
     @Bean

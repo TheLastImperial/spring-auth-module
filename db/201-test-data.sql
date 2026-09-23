@@ -22,6 +22,10 @@ VALUES('019dffbe-d07e-7bfd-ab68-f566727ec57d', 'user',
 ('019dffbe-d07e-7bfd-ab68-f566727ec560', 'expired@user.com',
     '$2a$10$eO6sAdt3WNQscoIA1f.RmuTNTF.ovZseDmr1jRBteIOMmDRSgknlG',
     true, true, false, true, now(), now()
+),
+('019dffbe-d07e-7bfd-ab68-f566727ec561', 'admin',
+    '$2a$10$eO6sAdt3WNQscoIA1f.RmuTNTF.ovZseDmr1jRBteIOMmDRSgknlG',
+    true, true, true, true, now(), now()
 );
 
 
@@ -29,4 +33,6 @@ INSERT INTO user_role(user_id, role_id)
 VALUES
 ('019dffbe-d07e-7bfd-ab68-f566727ec57d', '019dffbe-d07e-7bfd-ab68-f566727ec57c'),
 ('019dffbe-d07e-7bfd-ab68-f566727ec570', '019dffbe-d07e-7bfd-ab68-f566727ec57c'),
-('019dffbe-d07e-7bfd-ab68-f566727ec560', '019dffbe-d07e-7bfd-ab68-f566727ec57c');
+('019dffbe-d07e-7bfd-ab68-f566727ec560', '019dffbe-d07e-7bfd-ab68-f566727ec57c'),
+('019dffbe-d07e-7bfd-ab68-f566727ec561', '019dffbe-d07e-7bfd-ab68-f566727ec57c'),
+('019dffbe-d07e-7bfd-ab68-f566727ec561', '019dffbe-d07e-7bfd-ab68-f566727ec57b');
