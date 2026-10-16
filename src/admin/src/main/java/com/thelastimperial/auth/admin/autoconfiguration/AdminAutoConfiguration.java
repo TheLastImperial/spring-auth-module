@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 
 import com.thelastimperial.auth.admin.handlers.UserHandler;
 import com.thelastimperial.auth.admin.services.impl.LockUnlockAuditServiceImpl;
-import com.thelastimperial.auth.auth.handlers.CustomAuthenticationFailureHandler;
+import com.thelastimperial.auth.auth.handlers.CredentialsExpiredHandler;
 import com.thelastimperial.auth.auth.services.RecoveryService;
 import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
@@ -38,7 +38,7 @@ public class AdminAutoConfiguration {
         .formLogin( login -> login
             .loginPage("/auth/login")
             .failureUrl("/auth/login?error=true")
-            .failureHandler(new CustomAuthenticationFailureHandler(recoveryService))
+            .failureHandler(new CredentialsExpiredHandler(recoveryService))
             .defaultSuccessUrl("/", true)
             .permitAll()
         )

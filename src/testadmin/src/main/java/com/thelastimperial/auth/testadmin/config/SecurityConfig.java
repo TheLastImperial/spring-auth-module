@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.RememberMeServices;
 
-import com.thelastimperial.auth.auth.handlers.CustomAuthenticationFailureHandler;
+import com.thelastimperial.auth.auth.handlers.CredentialsExpiredHandler;
 import com.thelastimperial.auth.auth.services.RecoveryService;
 
 @Configuration
@@ -26,7 +26,7 @@ public class SecurityConfig {
         .formLogin( login -> login
             .loginPage("/auth/login")
             .failureUrl("/auth/login?error=true")
-            .failureHandler(new CustomAuthenticationFailureHandler(recoveryService))
+            .failureHandler(new CredentialsExpiredHandler(recoveryService))
             .defaultSuccessUrl("/", true)
             .permitAll()
         )
