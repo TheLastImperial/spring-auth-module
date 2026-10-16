@@ -1,0 +1,3 @@
+com.thelastimperial.auth.authn.autoconfiguration.WebAuthnAutoConfiguration
+com.thelastimperial.auth.authn.autoconfiguration.WebAuthnServiceAutoConfiguration
+com.thelastimperial.auth.authn.autoconfiguration.WebAuthnControllerAutoConfiguration
