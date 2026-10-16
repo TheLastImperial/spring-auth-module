@@ -32,9 +32,9 @@ public class CredentialsExpiredHandler extends SimpleUrlAuthenticationFailureHan
         String username = exception.getAuthenticationRequest().getName();
         UserRecoveryEntity recovery = recoveryService.generate(username);
         if(exception instanceof CredentialsExpiredException ){
-            setDefaultFailureUrl("/auth/new-password/" + recovery.getId());
+            setDefaultFailureUrl("/new-password/" + recovery.getId());
         } else{
-            setDefaultFailureUrl("/auth/login?error=true");
+            setDefaultFailureUrl("/login?error=true");
         }
         super.onAuthenticationFailure(request, response, exception);
     }

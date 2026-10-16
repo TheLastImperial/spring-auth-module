@@ -27,7 +27,7 @@ public class RegisterTest {
     @Order(1)
     public void registerInvalidEmail() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "test@test")
@@ -43,7 +43,7 @@ public class RegisterTest {
     @Order(2)
     public void registerInvalidPasswordPattern() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "test@test.com")
@@ -59,7 +59,7 @@ public class RegisterTest {
     @Order(3)
     public void registerInvalidPasswordMatch() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "test@test.com")
@@ -77,7 +77,7 @@ public class RegisterTest {
     @Order(4)
     public void registerNewUser() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "tes@test.com")
@@ -91,7 +91,7 @@ public class RegisterTest {
     @Order(5)
     public void registerUserExists() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "tes@test.com")

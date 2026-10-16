@@ -20,8 +20,8 @@ public class FormLoginCustomizer implements Customizer<FormLoginConfigurer<HttpS
     @Override
     public void customize(FormLoginConfigurer<HttpSecurity> t) {
         t
-            .loginPage("/auth/login")
-            .failureUrl("/auth/login?error=true")
+            .loginPage("/login")
+            .failureUrl("/login?error=true")
             .failureHandler(new CredentialsExpiredHandler(recoveryService))
             .defaultSuccessUrl("/", true)
             .permitAll();

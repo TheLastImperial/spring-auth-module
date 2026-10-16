@@ -13,8 +13,8 @@ public class LogoutCustomizer implements Customizer<LogoutConfigurer<HttpSecurit
     @Override
     public void customize(LogoutConfigurer<HttpSecurity> t) {
         t
-            .logoutUrl("/auth/logout")
-            .logoutSuccessUrl("/auth/login")
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
             .permitAll();
     }
 

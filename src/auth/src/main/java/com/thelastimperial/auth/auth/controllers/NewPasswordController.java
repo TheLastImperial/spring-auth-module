@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 */
 @AllArgsConstructor
 @Controller
-@RequestMapping(path = "/auth/new-password")
+@RequestMapping(path = "/new-password")
 @Slf4j
 public class NewPasswordController {
     private final NewPasswordService newPasswordService;

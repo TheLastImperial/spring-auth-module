@@ -27,19 +27,19 @@ public class RecoveryTest {
     @Order(1)
     public void recoveryAccount() throws Exception {
         mockMvc.perform(
-            post("/auth/recovery")
+            post("/recovery")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "newpassword@email.com")
         )
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/auth/recovery?generated=true"));
+        .andExpect(redirectedUrl("/recovery?generated=true"));
     }
     @Test
     @Order(2)
     public void updatePasswordWrongTokenPattern() throws Exception {
         mockMvc.perform(
-            post("/auth/new-password")
+            post("/new-password")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("password", "1234asdfAS@")
@@ -52,7 +52,7 @@ public class RecoveryTest {
     @Order(2)
     public void updatePasswordTokenDoesntExists() throws Exception {
         mockMvc.perform(
-            post("/auth/new-password")
+            post("/new-password")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("password", "1234asdfAS@")
@@ -65,7 +65,7 @@ public class RecoveryTest {
     @Order(2)
     public void updatePasswordExpiredToken() throws Exception {
         mockMvc.perform(
-            post("/auth/new-password")
+            post("/new-password")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("password", "1234asdfAS@")
@@ -78,7 +78,7 @@ public class RecoveryTest {
     @Order(3)
     public void updatePassword() throws Exception {
         mockMvc.perform(
-            post("/auth/new-password")
+            post("/new-password")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("password", "1234asdfAS@")
@@ -91,7 +91,7 @@ public class RecoveryTest {
     @Order(4)
     public void updatePasswordTokenUsed() throws Exception {
         mockMvc.perform(
-            post("/auth/new-password")
+            post("/new-password")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("password", "1234asdfAS@")
@@ -105,21 +105,21 @@ public class RecoveryTest {
     @Order(5)
     public void loginTryLastPassword() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "newpassword")
             .param("password","1234")
         )
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/auth/login?error=true"));
+        .andExpect(redirectedUrl("/login?error=true"));
     }
 
     @Test
     @Order(6)
     public void loginWithNewPassword() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "newpassword")

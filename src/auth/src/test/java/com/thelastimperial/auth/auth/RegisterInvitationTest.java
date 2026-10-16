@@ -28,7 +28,7 @@ public class RegisterInvitationTest {
     @Order (1)
     public void invitationBadUUIDFormat() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "anotheremail@mail.com")
@@ -49,7 +49,7 @@ public class RegisterInvitationTest {
     @Order (2)
     public void invitationExpired() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "anotheremail@mail.com")
@@ -71,7 +71,7 @@ public class RegisterInvitationTest {
     @Order (3)
     public void registerNewUserWithInvitation() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "anotheremail@mail.com")
@@ -86,7 +86,7 @@ public class RegisterInvitationTest {
     @Order (4)
     public void invitationUsed() throws Exception {
         mockMvc.perform(
-            post("/auth/register")
+            post("/register")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "anotheremail@mail.com")

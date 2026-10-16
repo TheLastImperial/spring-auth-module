@@ -39,8 +39,7 @@ public class AuthFilterAutoConfiguration {
         .authorizeHttpRequests(auth -> {
             webAuthnAuthorizeCustomizer.customize(auth);
             authAuthorizeCustomizer.customize(auth);
-            auth.requestMatchers("/").hasRole("USER");
-
+            auth.anyRequest().authenticated();
         })
         .formLogin(
             formLoginCustomizer

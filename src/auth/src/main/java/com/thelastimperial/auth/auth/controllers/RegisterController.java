@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 */
 @AllArgsConstructor
 @Controller
-@RequestMapping(path = "/auth/register")
+@RequestMapping(path = "/register")
 public class RegisterController {
     private final RegisterHandler registerHandler;
 

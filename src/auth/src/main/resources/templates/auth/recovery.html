@@ -10,10 +10,10 @@
     </div>
 
     <form
-      th:action="@{/auth/recovery}"
+      th:action="@{/recovery}"
       th:object="${recovery}"
       method="post">
-      
+
       <div class="mb-3">
         <label for="username" class="form-label text-secondary fw-semibold small">
           Email
@@ -23,14 +23,14 @@
             th:field="*{username}"
             type="text"
             class="form-control" id="username" placeholder="Email" required>
-            
+
         </div>
         <span th:if="${param.generated}">We send a email to recovery password.</span>
       </div>
 
       <div class="d-grid gap-2">
         <button type="submit" class="btn btn-primary">Send</button>
-        <a th:href="@{/auth/login}"
+        <a th:href="@{/login}"
           class="text-primary-custom small">
           Log in
         </a>
