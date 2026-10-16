@@ -37,7 +37,7 @@ import com.thelastimperial.auth.auth.services.impl.RegisterInvitationServiceImpl
 import com.thelastimperial.auth.auth.services.impl.RegisterServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserDetailsServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserServiceImpl;
-import com.thelastimperial.auth.authn.config.WebAuthnProperty;
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnCustomizer;
 import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
@@ -87,7 +87,7 @@ public class AuthAutoConfiguration {
     @ConditionalOnMissingBean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
         RememberMeServices rememberMeServices, RecoveryService recoveryService,
-        WebAuthnProperty webAuthnProperty
+        WebAuthnCustomizer webAuthnCustomizer
     ) {
         http
         .authorizeHttpRequests(auth -> auth
@@ -114,11 +114,8 @@ public class AuthAutoConfiguration {
             .logoutSuccessUrl("/auth/login")
             .permitAll()
         )
-        .webAuthn(authn -> authn
-            .rpName(webAuthnProperty.getRpName())
-            .rpId(webAuthnProperty.getRpId())
-            .allowedOrigins(webAuthnProperty.getAllowedOrigins())
-            .disableDefaultRegistrationPage(true)
+        .webAuthn(
+            webAuthnCustomizer
         );
         return http.build();
     }
