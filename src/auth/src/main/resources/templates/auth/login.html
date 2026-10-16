@@ -17,7 +17,7 @@
 
       <!-- Formulario -->
       <form th:action="@{/auth/login}" method="POST">
-        
+
         <!-- Campo Usuario / Email -->
         <div class="mb-3">
           <label for="username" class="form-label text-secondary fw-semibold small">
@@ -69,7 +69,14 @@
         <div class="d-grid gap-2">
           <button type="submit" class="btn btn-primary">Login</button>
         </div>
-
+        <div class="text-center">
+          Or
+        </div>
+        <div class="d-grid gap-2">
+          <button id="passkey-signin" type="button" class="btn btn-primary">
+            Use a PassKey
+          </button>
+        </div>
       </form>
 
       <!-- Crear Nueva Cuenta -->
@@ -82,7 +89,19 @@
       </div>
 
     </div>
-    <script th:src="@{/js/auth/auth.js}"></script>
+    <script type="text/javascript" th:src="@{/js/auth/auth.js}"></script>
+    <script type="text/javascript" th:src="@{/webauthn/webauthn.js}"></script>
+    <script th:inline="javascript">
+      const headerName = /*[[${_csrf.headerName}]]*/ '';
+      const headerValue = /*[[${_csrf.token}]]*/ '';
+      const headers = {
+          [headerName]: headerValue
+      };
+      document.addEventListener(
+        "DOMContentLoaded",
+        () => setupLogin(headers, "", document.getElementById('passkey-signin'))
+      );
+    </script>
   </div>
 </body>
 </html>
