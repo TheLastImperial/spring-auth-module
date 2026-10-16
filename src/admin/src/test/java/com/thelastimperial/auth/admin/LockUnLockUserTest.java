@@ -29,7 +29,7 @@ public class LockUnLockUserTest {
     @Order(1)
     public void loginUnlockedUser() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "admin")
@@ -52,14 +52,14 @@ public class LockUnLockUserTest {
     @Order(3)
     public void loginAfterLockUser() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "admin")
             .param("password","1234")
         )
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/auth/login?error=true"));
+        .andExpect(redirectedUrl("/login?error=true"));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class LockUnLockUserTest {
     @Order(5)
     public void loginAfterUnLockUser() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "admin")
