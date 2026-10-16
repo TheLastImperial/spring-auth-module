@@ -37,6 +37,7 @@ import com.thelastimperial.auth.auth.services.impl.RegisterInvitationServiceImpl
 import com.thelastimperial.auth.auth.services.impl.RegisterServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserDetailsServiceImpl;
 import com.thelastimperial.auth.auth.services.impl.UserServiceImpl;
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnCustomizer;
 import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserActionRepository;
 import com.thelastimperial.auth.domain.repositories.UserActivationRepository;
@@ -85,7 +86,8 @@ public class AuthAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
-        RememberMeServices rememberMeServices, RecoveryService recoveryService
+        RememberMeServices rememberMeServices, RecoveryService recoveryService,
+        WebAuthnCustomizer webAuthnCustomizer
     ) {
         http
         .authorizeHttpRequests(auth -> auth
@@ -93,6 +95,8 @@ public class AuthAutoConfiguration {
             .requestMatchers(
                 "/css/auth/**","/js/auth/**","/auth/**", "/error"
             ).permitAll()
+            .requestMatchers("/webauthn/webauthn.js").permitAll()
+            .requestMatchers("/webauthn/**").authenticated()
         )
         .formLogin( login -> login
             .loginPage("/auth/login")
@@ -109,6 +113,9 @@ public class AuthAutoConfiguration {
             .logoutUrl("/auth/logout")
             .logoutSuccessUrl("/auth/login")
             .permitAll()
+        )
+        .webAuthn(
+            webAuthnCustomizer
         );
         return http.build();
     }

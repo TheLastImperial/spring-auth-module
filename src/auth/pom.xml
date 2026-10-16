@@ -58,6 +58,11 @@
 			<artifactId>domain</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.thelastimperial.auth</groupId>
+			<artifactId>authn</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>

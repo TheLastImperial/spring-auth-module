@@ -1,0 +1,102 @@
+<html layout:decorate="~{layouts/main}">
+    <header>
+    </header>
+    <body>
+        <div layout:fragment="container">
+            <!-- START -->
+
+            <div class="d-flex justify-content-center align-items-center mb-3">
+                <div class="col-8">
+                    <form method="post" action="#" onclick="return false">
+                        <div id="success" class="alert alert-success" role="alert">
+                            Success!
+                        </div>
+                        <div id="error" class="alert alert-danger" role="alert"></div>
+                        <div class="col-6 form-group mb-1">
+                            <label for="form-label" class="screenreader">
+                                Passkey Label
+                            </label>
+                            <input type="text" id="label"
+                                class="form-control"
+                                name="label" placeholder="Passkey Label"
+                                required autofocus>
+                        </div>
+                        <div class="col-6">
+                            <button id="register" class="btn btn-primary" type="submit">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Label</th>
+                            <th>Created</th>
+                            <th>Last Used</th>
+                            <th>Signature Count</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr th:each="credential : ${credentials}">
+                        <td th:text="${credential.getLabel}"></td>
+                        <td th:text="${credential.getCreated}"></td>
+                        <td th:text="${credential.getLastUsed}"></td>
+                        <td th:text="${credential.getSignatureCount}"></td>
+                        <td class="text-center">
+                            <form method="post" class="delete-form"
+                                th:action="@{/webauthn/register/{id}(id=${credential.getCredentialId.toBase64UrlString})}">
+                                <input type="hidden" name="method" value="delete">
+                                <button class="btn btn-danger" type="submit">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script type="text/javascript" th:src="@{/webauthn/webauthn.js}"></script>
+            </script>
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                const headerName = /*[[${_csrf.headerName}]]*/ '';
+                const headerValue = /*[[${_csrf.token}]]*/ '';
+                const headers = {
+                    [headerName]: headerValue
+                };
+                /*]]>*/
+                const ui = {
+                    getRegisterButton: function() {
+                        return document.getElementById('register')
+                    },
+                    getSuccess: function() {
+                        return document.getElementById('success')
+                    },
+                    getError: function() {
+                        return document.getElementById('error')
+                    },
+                    getLabelInput: function() {
+                        return document.getElementById('label')
+                    },
+                    getDeleteForms: function() {
+                        return Array.from(document.getElementsByClassName("delete-form"))
+                    },
+                };
+                document.addEventListener(
+                    "DOMContentLoaded", () => setupRegistration(headers, "", ui)
+                );
+            </script>
+            <!-- END -->
+        </div>
+    </body>
+</html>
