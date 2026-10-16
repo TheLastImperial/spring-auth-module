@@ -28,18 +28,27 @@ The SecurityFilterChain to use the WebAuthn
 
 ### WebAuthn configuration
 
+The default configuration is in the object `WebAuthnCustomizer` you can just use it.
+
 ```java
-.webAuthn(authn -> authn
-    .rpName(webAuthnProperty.getRpName())
-    .rpId(webAuthnProperty.getRpId())
-    .allowedOrigins(webAuthnProperty.getAllowedOrigins())
-    .disableDefaultRegistrationPage(true)
+@Autowired
+private WebAuthnCustomizer webAuthnCustomizer;
+
+.webAuthn(
+    webAuthnCustomizer
 )
 ```
 
 ### Requests Matcher configuration:
 
+The default configuration is in the object `WebAuthnAuthorizeCustomizer` you can just use it.
+
 ```java
-.requestMatchers("/webauthn/webauthn.js").permitAll()
-.requestMatchers("/webauthn/**").authenticated()
+@Autowired
+private WebAuthnAuthorizeCustomizer webAuthnAuthorizeCustomizer;
+
+.authorizeHttpRequests(
+    webAuthnAuthorizeCustomizer
+)
+
 ```

@@ -6,26 +6,25 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnAuthorizeCustomizer;
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnCustomizer;
+
 @Configuration
 public class SecurityConfig {
-    private WebAuthnProperty webAuthnProperty;
+    private WebAuthnCustomizer webAuthnCustomizer;
+    private WebAuthnAuthorizeCustomizer webAuthnAuthorizeCustomizer;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(
-                auth -> auth
-                    .requestMatchers("/webauthn/webauthn.js").permitAll()
+            .authorizeHttpRequests(auth -> {
+                webAuthnAuthorizeCustomizer.customize(auth);
+                auth
                     .requestMatchers("/").authenticated()
-                    .requestMatchers("/webauthn/**").authenticated()
-                    .anyRequest().permitAll()
-            )
+                    .anyRequest().authenticated();
+            })
             .formLogin(Customizer.withDefaults())
-            .webAuthn(authn -> authn
-                .rpName(webAuthnProperty.getRpName())
-                .rpId(webAuthnProperty.getRpId())
-                .allowedOrigins(webAuthnProperty.getAllowedOrigins())
-                .disableDefaultRegistrationPage(true)
-            );
+            .webAuthn(webAuthnCustomizer);
         return http.build();
     }
 }
