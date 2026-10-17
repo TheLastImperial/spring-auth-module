@@ -6,14 +6,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.RememberMeServices;
 
 import com.thelastimperial.auth.admin.config.security.customizers.AdminAuthorizeCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.AuthAuthorizeCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.FormLoginCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.LogoutCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.RememberMeCustomizer;
-import com.thelastimperial.auth.auth.services.RecoveryService;
 import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnAuthorizeCustomizer;
 import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnCustomizer;
 
@@ -34,9 +32,7 @@ public class AdminFilterAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http,
-        RememberMeServices rememberMeServices, RecoveryService recoveryService
-    ) {
+    public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) {
 
         http
         .authorizeHttpRequests(auth -> {
