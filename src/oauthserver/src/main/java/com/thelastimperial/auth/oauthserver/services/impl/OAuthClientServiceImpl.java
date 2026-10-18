@@ -1,8 +1,8 @@
 package com.thelastimperial.auth.oauthserver.services.impl;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -64,11 +64,9 @@ public class OAuthClientServiceImpl implements  OAuthClientService {
                 .build()
             )
             .clientSecretExpiresAt(
-                LocalDateTime.now().plusDays(
-                    oAuthServerProperty.getNewclient().getExpiresDays()
+                Instant.now().plus(
+                    oAuthServerProperty.getNewclient().getExpiresDays(), ChronoUnit.DAYS
                 )
-                .atZone(ZoneId.of(oAuthServerProperty.getNewclient().getTz()))
-                .toInstant()
             )
             .scope(oAuthServerProperty.getNewclient().getScopes())
             .build();
@@ -89,9 +87,9 @@ public class OAuthClientServiceImpl implements  OAuthClientService {
             .clientSecret(clientSecret)
             .redirectUris(newRegisteredClient.getRedirectUris())
             .postLogoutRedirectUris(newRegisteredClient.getPostLogoutRedirectUris())
-            .clientSecretExpiresAt(LocalDateTime.now().plusDays(
-                oAuthServerProperty.getNewclient().getExpiresDays()
-            ))
+            .clientSecretExpiresAt(Instant.now()
+                .plus(oAuthServerProperty.getNewclient().getExpiresDays(), ChronoUnit.DAYS)
+            )
             .build();
         return oAuthClient;
     }

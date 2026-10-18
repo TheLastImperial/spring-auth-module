@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.auth.services.impl;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,7 +47,7 @@ public class NewPasswordServiceImpl implements NewPasswordService {
         }
 
         UserRecoveryEntity recovery = recoveryOpt.get();
-        if(recovery.getValidUntilAt().isBefore(LocalDateTime.now())){
+        if(recovery.getValidUntilAt().isBefore(Instant.now())){
             log.debug("The recovery is expired: '{}'", recovery.getId());
             return;
         }

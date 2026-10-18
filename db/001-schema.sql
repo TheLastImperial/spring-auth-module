@@ -1,25 +1,25 @@
 
 CREATE TABLE public.user_actions (
     id character varying(255) NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
     description character varying(255),
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) with time zone NOT NULL
 );
 
 CREATE TABLE public.user_activations (
     id uuid NOT NULL,
-    activated_at timestamp(6) without time zone,
-    created_at timestamp(6) without time zone NOT NULL,
+    activated_at timestamp(6) with time zone,
+    created_at timestamp(6) with time zone NOT NULL,
     is_used boolean NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL,
     user_id uuid
 );
 
 CREATE TABLE public.user_audits (
     id uuid NOT NULL,
     comment character varying(255),
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL,
     updated_by uuid,
     user_id uuid,
     action_id character varying(255)
@@ -27,21 +27,21 @@ CREATE TABLE public.user_audits (
 
 CREATE TABLE public.user_expiries (
     id uuid NOT NULL,
-    account_expired_at timestamp(6) without time zone,
-    created_at timestamp(6) without time zone NOT NULL,
-    credentials_expired_at timestamp(6) without time zone,
-    updated_at timestamp(6) without time zone NOT NULL,
+    account_expired_at timestamp(6) with time zone,
+    created_at timestamp(6) with time zone NOT NULL,
+    credentials_expired_at timestamp(6) with time zone,
+    updated_at timestamp(6) with time zone NOT NULL,
     user_id uuid
 );
 
 CREATE TABLE public.user_recoveries (
     id uuid NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
     is_used boolean DEFAULT false NOT NULL,
     last_password character varying(255),
-    updated_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL,
     username character varying(255),
-    valid_until_at timestamp(6) without time zone,
+    valid_until_at timestamp(6) with time zone,
     user_id uuid
 );
 
@@ -52,9 +52,9 @@ CREATE TABLE public.user_role (
 
 CREATE TABLE public.user_roles (
     id uuid NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
     name character varying(255),
-    updated_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL,
     is_default boolean NOT NULL DEFAULT false
 );
 
@@ -62,11 +62,11 @@ CREATE TABLE public.users (
     id uuid NOT NULL,
     account_non_expired boolean NOT NULL DEFAULT true,
     account_non_locked boolean NOT NULL DEFAULT true,
-    created_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
     credentials_non_expired boolean NOT NULL DEFAULT true,
     enabled boolean NOT NULL DEFAULT true,
     password character varying(255),
-    updated_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL,
     username character varying(255) NOT NULL
 );
 
