@@ -11,7 +11,6 @@ The properties the have to create to run the system.
 | com.thelastimperial.auth.oauthserver.jwk.id                   | JWK Id to create tokens       |
 | com.thelastimperial.auth.oauthserver.jwk.publicKey            | Public Key String             |
 | com.thelastimperial.auth.oauthserver.jwk.privateKey           | Private Key String            |
-| com.thelastimperial.auth.oauthserver.newclient.tz             | TimeZone                      |
 | com.thelastimperial.auth.oauthserver.newclient.expiresDays    | Expiration of new Clients     |
 | com.thelastimperial.auth.oauthserver.newclient.secretSize     | Size of the secret generated  |
 | com.thelastimperial.auth.oauthserver.newclient.clientSize     | Size of the client generated  |
