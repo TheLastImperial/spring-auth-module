@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.auth.services.impl;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,7 +48,7 @@ public class ActivationServiceImpl implements ActivationService{
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
         activation.setUsed(true);
-        activation.setActivatedAt(LocalDateTime.now());
+        activation.setActivatedAt(Instant.now());
 
 
         userRepository.save(user);

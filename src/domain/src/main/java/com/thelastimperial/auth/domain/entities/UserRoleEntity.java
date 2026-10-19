@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.domain.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +38,7 @@ public class UserRoleEntity {
     private List<UserEntity> users;
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }

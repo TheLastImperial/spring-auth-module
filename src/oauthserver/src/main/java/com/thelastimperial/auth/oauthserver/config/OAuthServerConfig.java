@@ -4,16 +4,35 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
+import com.thelastimperial.auth.auth.config.security.customizers.AuthAuthorizeCustomizer;
+import com.thelastimperial.auth.auth.config.security.customizers.FormLoginCustomizer;
+import com.thelastimperial.auth.auth.config.security.customizers.LogoutCustomizer;
+import com.thelastimperial.auth.auth.config.security.customizers.RememberMeCustomizer;
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnAuthorizeCustomizer;
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnCustomizer;
+import com.thelastimperial.auth.oauthserver.config.security.customizers.OAuthServerAuthorizeCustomizer;
+import com.thelastimperial.auth.oauthserver.config.security.customizers.OAuthServerExceptionHandlerCustomizer;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Configuration
 public class OAuthServerConfig {
+    private WebAuthnAuthorizeCustomizer webAuthnAuthorizeCustomizer;
+    private AuthAuthorizeCustomizer authAuthorizeCustomizer;
+    private OAuthServerAuthorizeCustomizer oAuthServerAuthorizeCustomizer;
+
+    private WebAuthnCustomizer webAuthnCustomizer;
+    private FormLoginCustomizer formLoginCustomizer;
+    private RememberMeCustomizer rememberMeCustomizer;
+    private LogoutCustomizer logoutCustomizer;
+    private OAuthServerExceptionHandlerCustomizer oAuthServerExceptionHandlerCustomizer;
+
     @Bean
     @Order(1)
     @ConditionalOnMissingBean
@@ -31,11 +50,8 @@ public class OAuthServerConfig {
 			)
 			// Redirect to the login page when not authenticated from the
 			// authorization endpoint
-			.exceptionHandling((exceptions) -> exceptions
-				.defaultAuthenticationEntryPointFor(
-					new LoginUrlAuthenticationEntryPoint("/auth/login"),
-					new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-				)
+			.exceptionHandling(
+                oAuthServerExceptionHandlerCustomizer
 			);
         return http.build();
     }
@@ -47,25 +63,24 @@ public class OAuthServerConfig {
     ) throws Exception {
 
         http
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/").hasRole("USER")
-            .requestMatchers("/css/auth/**","/js/auth/**","/auth/**").permitAll()
-            .anyRequest().authenticated()
+        .authorizeHttpRequests(auth -> {
+            authAuthorizeCustomizer.customize(auth);
+            webAuthnAuthorizeCustomizer.customize(auth);
+            oAuthServerAuthorizeCustomizer.customize(auth);
+            auth.anyRequest().authenticated();
+        })
+        .formLogin( login -> {
+            formLoginCustomizer.customize(login);
+            login.defaultSuccessUrl("/", false);
+        })
+        .rememberMe(
+            rememberMeCustomizer
         )
-        .formLogin( login -> login
-            .loginPage("/auth/login")
-            .failureUrl("/auth/login?error=true")
-            .defaultSuccessUrl("/", false)
-            .permitAll()
+        .logout(
+            logoutCustomizer
         )
-        .rememberMe(rememberme -> rememberme
-            .rememberMeServices(rememberMeServices)
-            .rememberMeParameter("remember-me")
-        )
-        .logout(logout -> logout
-            .logoutUrl("/auth/logout")
-            .logoutSuccessUrl("/auth/login")
-            .permitAll()
+        .webAuthn(
+            webAuthnCustomizer
         );
         return http.build();
     }

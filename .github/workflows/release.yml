@@ -44,6 +44,13 @@ jobs:
         echo "AUTH_ARTEFACT=$AUTH_ARTEFACT" >> $GITHUB_ENV
         echo "Auth Artefact ID: $AUTH_ARTEFACT"
 
+    - name: Get Authn ArtefactId
+      id: get_authn_artefact_id
+      run: |
+        AUTHN_ARTEFACT=$(mvn -f src/authn/pom.xml help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+        echo "AUTHN_ARTEFACT=$AUTHN_ARTEFACT" >> $GITHUB_ENV
+        echo "Authn Artefact ID: $AUTHN_ARTEFACT"
+
     - name: Get Domain ArtefactId
       id: get_domain_artefact_id
       run: |
@@ -95,6 +102,7 @@ jobs:
         prerelease: false
         files: |
             src/auth/target/${{ env.AUTH_ARTEFACT }}-${{ env.VERSION }}.jar
+            src/authn/target/${{ env.AUTHN_ARTEFACT }}-${{ env.VERSION }}.jar
             src/domain/target/${{ env.DOMAIN_ARTEFACT }}-${{ env.VERSION }}.jar
             src/admin/target/${{ env.ADMIN_ARTEFACT }}-${{ env.VERSION }}.jar
             src/oauthserver/target/${{ env.OAUTHSERVER_ARTEFACT }}-${{ env.VERSION }}.jar

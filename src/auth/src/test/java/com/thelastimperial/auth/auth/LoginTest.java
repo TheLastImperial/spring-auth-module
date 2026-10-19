@@ -24,7 +24,7 @@ public class LoginTest {
     @Test
     public void loginWithUser() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "user")
@@ -36,7 +36,7 @@ public class LoginTest {
     @Test
     public void loginWithEmail() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "user@user.com")
@@ -49,19 +49,19 @@ public class LoginTest {
     @Test
     public void loginWrongPassword() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "user")
             .param("password","asdf")
         )
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("/auth/login?error=true"));
+        .andExpect(redirectedUrl("/login?error=true"));
     }
     @Test
     public void loginWithRememeberMe() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "user")
@@ -73,7 +73,7 @@ public class LoginTest {
     }
     public void loginWithExpiredCredentials() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "expired@user.com")
@@ -81,6 +81,6 @@ public class LoginTest {
             .param("remember-me","false")
         )
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrlPattern("/auth/new-password/*"));
+        .andExpect(redirectedUrlPattern("/new-password/*"));
     }
 }

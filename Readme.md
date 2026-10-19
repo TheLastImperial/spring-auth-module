@@ -11,6 +11,9 @@ The parameters are used to be fit to your needs.
 | `com.thelastimperial.auth.patterns.password`    | A pattern to validate a password. |
 | `com.thelastimperial.auth.patterns.email`       | A pattern to validate a email.    |
 | `com.thelastimperial.auth.rememberme.key`       | Key to generate rememeberme       |
+| `com.thelastimperial.auth.authn.rpName`         | RP Name                           |
+| `com.thelastimperial.auth.authn.rpId`           | RP Id                             |
+| `com.thelastimperial.auth.authn.allowedOrigins` | Allowed Origins                   |
 
 ## Notifications
 
@@ -41,23 +44,22 @@ Use the default security filter chain to activate.
 
 ```java
 http
-.authorizeHttpRequests(auth -> auth
-    .requestMatchers("/").hasRole("USER")
-    .requestMatchers("/css/auth/**","/js/auth/**","/auth/**").permitAll()
+.authorizeHttpRequests(auth -> {
+    webAuthnAuthorizeCustomizer.customize(auth);
+    authAuthorizeCustomizer.customize(auth);
+    auth.requestMatchers("/").hasRole("USER");
+
+})
+.formLogin(
+    formLoginCustomizer
 )
-.formLogin( login -> login
-    .loginPage("/auth/login")
-    .failureUrl("/auth/login?error=true")
-    .defaultSuccessUrl("/", true)
-    .permitAll()
+.rememberMe(
+    rememberMeCustomizer
 )
-.rememberMe(rememberme -> rememberme
-    .rememberMeServices(rememberMeServices)
-    .rememberMeParameter("remember-me")
+.logout(
+    logoutCustomizer
 )
-.logout(logout -> logout
-    .logoutUrl("/auth/logout")
-    .logoutSuccessUrl("/auth/login")
-    .permitAll()
+.webAuthn(
+    webAuthnCustomizer
 );
 ```

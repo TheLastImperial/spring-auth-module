@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.domain.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -36,11 +36,11 @@ public class UserRecoveryEntity {
     private String lastPassword;
     @ColumnDefault(value="false")
     private boolean isUsed;
-    private LocalDateTime validUntilAt;
+    private Instant validUntilAt;
     private String username;
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }

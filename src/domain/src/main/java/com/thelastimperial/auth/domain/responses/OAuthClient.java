@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.domain.responses;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.Data;
 public class OAuthClient {
     private String redirectUris;
     private String postLogoutRedirectUris;
-    private LocalDateTime clientSecretExpiresAt;
+    private Instant clientSecretExpiresAt;
     private String clientId;
     private String clientSecret;
 }
