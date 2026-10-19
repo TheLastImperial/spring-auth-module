@@ -2,11 +2,9 @@ package com.thelastimperial.auth.admin.handlers;
 
 import java.security.Principal;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.thelastimperial.auth.domain.entities.UserAuditEntity;
 import com.thelastimperial.auth.domain.entities.UserEntity;
 import com.thelastimperial.auth.domain.repositories.UserRepository;
 import com.thelastimperial.utils.entities.AuditWrapper;

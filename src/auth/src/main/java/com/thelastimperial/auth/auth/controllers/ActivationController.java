@@ -1,7 +1,6 @@
 package com.thelastimperial.auth.auth.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thelastimperial.auth.auth.services.ActivationService;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 */
 @AllArgsConstructor
 @Controller
-@RequestMapping(path = "/auth")
 public class ActivationController {
     private final ActivationService activationService;
 

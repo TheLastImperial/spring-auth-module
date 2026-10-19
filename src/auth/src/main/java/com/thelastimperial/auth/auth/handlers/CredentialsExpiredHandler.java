@@ -16,13 +16,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 /**
  *
- * CustomAuthenticationFailureHandler redirect when authentication fail.
+ * CredentialsExpiredHandler redirect when authentication fail.
  * Redirect on exceptions:
  * CredentialsExpiredException -> Redirect to create a new password.
 */
 @AllArgsConstructor
 @Slf4j
-public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class CredentialsExpiredHandler extends SimpleUrlAuthenticationFailureHandler {
     private final RecoveryService recoveryService;
 
     @Override
@@ -32,9 +32,9 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         String username = exception.getAuthenticationRequest().getName();
         UserRecoveryEntity recovery = recoveryService.generate(username);
         if(exception instanceof CredentialsExpiredException ){
-            setDefaultFailureUrl("/auth/new-password/" + recovery.getId());
+            setDefaultFailureUrl("/new-password/" + recovery.getId());
         } else{
-            setDefaultFailureUrl("/auth/login?error=true");
+            setDefaultFailureUrl("/login?error=true");
         }
         super.onAuthenticationFailure(request, response, exception);
     }

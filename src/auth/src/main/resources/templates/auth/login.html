@@ -16,7 +16,7 @@
       </div>
 
       <!-- Formulario -->
-      <form th:action="@{/auth/login}" method="POST">
+      <form th:action="@{/login}" method="POST">
 
         <!-- Campo Usuario / Email -->
         <div class="mb-3">
@@ -59,7 +59,7 @@
               Remember me
             </label>
           </div>
-          <a th:href="@{/auth/recovery}"
+          <a th:href="@{/recovery}"
             class="text-primary-custom small">
             Forgot your password ?
           </a>
@@ -82,7 +82,7 @@
       <!-- Crear Nueva Cuenta -->
       <div class="text-center">
         <p class="text-secondary small mb-0"> Don't have an account ?
-          <a th:href="@{/auth/register}" class="text-primary-custom fw-semibold">
+          <a th:href="@{/register}" class="text-primary-custom fw-semibold">
             Create a new account
           </a>
         </p>

@@ -1,6 +1,7 @@
 package com.thelastimperial.auth.auth.services.impl;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import com.thelastimperial.auth.auth.services.RecoveryService;
@@ -31,7 +32,7 @@ public class RecoveryServiceImpl implements RecoveryService {
             log.debug("User doesn't exists: {}", username);
             toSave = UserRecoveryEntity.builder()
                 .username(username)
-                .validUntilAt(LocalDateTime.now())
+                .validUntilAt(Instant.now())
                 .isUsed(true)
                 .build();
         } else {
@@ -39,7 +40,7 @@ public class RecoveryServiceImpl implements RecoveryService {
             toSave = UserRecoveryEntity.builder()
                 .user(user)
                 .username(username)
-                .validUntilAt(LocalDateTime.now().plusMinutes(15))
+                .validUntilAt(Instant.now().plus(15, ChronoUnit.MINUTES))
                 .isUsed(false)
                 .build();
         }

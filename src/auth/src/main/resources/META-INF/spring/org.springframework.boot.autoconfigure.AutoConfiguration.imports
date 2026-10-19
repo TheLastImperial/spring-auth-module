@@ -1,2 +1,4 @@
 com.thelastimperial.auth.auth.autoconfiguration.AuthAutoConfiguration
 com.thelastimperial.auth.auth.autoconfiguration.AuthControllerAutoConfiguration
+com.thelastimperial.auth.auth.autoconfiguration.AuthCustomizerAutoConfiguration
+com.thelastimperial.auth.auth.autoconfiguration.AuthFilterAutoConfiguration

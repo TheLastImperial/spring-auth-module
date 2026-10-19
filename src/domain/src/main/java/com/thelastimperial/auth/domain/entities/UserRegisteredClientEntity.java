@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.domain.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,7 +36,7 @@ public class UserRegisteredClientEntity {
     private String registeredClientId;
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }

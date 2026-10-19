@@ -24,7 +24,7 @@ public class AdminNavigation {
     @Test
     public void loginAdmin() throws Exception {
         mockMvc.perform(
-            post("/auth/login")
+            post("/login")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .with(csrf())
             .param("username", "admin")
