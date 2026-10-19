@@ -1,11 +1,14 @@
 # Changelog
 
-Version 1.3.1
+Version 1.X.X
 
-## Admin
+## Authn
 
-Deleted maven-spring-plugin
+Created Authn module to authentication with passkey.
 
-## Action
+## Refactor
 
-Added artefacts admin, oauthserver and oauthclient.
+Created customizers to fast configuration of filter chain.
+Deleted prefix `/auth`
+Now the projects use the main layout from utils module.
+Migrate LocalDateTime to Instant in all the Entities.
