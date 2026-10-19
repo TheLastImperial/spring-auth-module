@@ -4,40 +4,50 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.RememberMeServices;
 
-import com.thelastimperial.auth.auth.handlers.CustomAuthenticationFailureHandler;
-import com.thelastimperial.auth.auth.services.RecoveryService;
+import com.thelastimperial.auth.admin.config.security.customizers.AdminAuthorizeCustomizer;
+import com.thelastimperial.auth.auth.config.security.customizers.AuthAuthorizeCustomizer;
+import com.thelastimperial.auth.auth.config.security.customizers.FormLoginCustomizer;
+import com.thelastimperial.auth.auth.config.security.customizers.LogoutCustomizer;
+import com.thelastimperial.auth.auth.config.security.customizers.RememberMeCustomizer;
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnAuthorizeCustomizer;
+import com.thelastimperial.auth.authn.config.security.customizers.WebAuthnCustomizer;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Configuration
 public class SecurityConfig {
+    private WebAuthnAuthorizeCustomizer webAuthnAuthorizeCustomizer;
+    private AuthAuthorizeCustomizer authAuthorizeCustomizer;
+    private AdminAuthorizeCustomizer adminAuthorizeCustomizer;
+
+    private WebAuthnCustomizer webAuthnCustomizer;
+    private FormLoginCustomizer formLoginCustomizer;
+    private RememberMeCustomizer rememberMeCustomizer;
+    private LogoutCustomizer logoutCustomizer;
+
     @Bean
-    public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http,
-        RememberMeServices rememberMeServices, RecoveryService recoveryService
-    ) {
+    public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) {
+
         http
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/").hasRole("USER")
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .requestMatchers(
-                "/css/auth/**","/js/auth/**","/auth/**", "/error"
-            ).permitAll()
+        .authorizeHttpRequests(auth -> {
+            authAuthorizeCustomizer.customize(auth);
+            webAuthnAuthorizeCustomizer.customize(auth);
+            adminAuthorizeCustomizer.customize(auth);
+            auth.anyRequest().authenticated();
+        })
+        .formLogin(
+            formLoginCustomizer
         )
-        .formLogin( login -> login
-            .loginPage("/auth/login")
-            .failureUrl("/auth/login?error=true")
-            .failureHandler(new CustomAuthenticationFailureHandler(recoveryService))
-            .defaultSuccessUrl("/", true)
-            .permitAll()
+        .rememberMe(
+            rememberMeCustomizer
         )
-        .rememberMe(rememberme -> rememberme
-            .rememberMeServices(rememberMeServices)
-            .rememberMeParameter("remember-me")
+        .logout(
+            logoutCustomizer
         )
-        .logout(logout -> logout
-            .logoutUrl("/auth/logout")
-            .logoutSuccessUrl("/auth/login")
-            .permitAll()
+        .webAuthn(
+            webAuthnCustomizer
         );
         return http.build();
     }

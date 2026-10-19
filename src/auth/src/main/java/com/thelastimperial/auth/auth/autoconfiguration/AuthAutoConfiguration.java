@@ -6,17 +6,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import com.thelastimperial.auth.auth.handlers.CustomAuthenticationFailureHandler;
 import com.thelastimperial.auth.auth.handlers.RegisterHandler;
 import com.thelastimperial.auth.auth.handlers.RecoveryHandler;
 import com.thelastimperial.auth.auth.services.ActivationService;
@@ -80,37 +77,6 @@ public class AuthAutoConfiguration {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
         return tokenRepository;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
-        RememberMeServices rememberMeServices, RecoveryService recoveryService
-    ) {
-        http
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/").hasRole("USER")
-            .requestMatchers(
-                "/css/auth/**","/js/auth/**","/auth/**", "/error"
-            ).permitAll()
-        )
-        .formLogin( login -> login
-            .loginPage("/auth/login")
-            .failureUrl("/auth/login?error=true")
-            .failureHandler(new CustomAuthenticationFailureHandler(recoveryService))
-            .defaultSuccessUrl("/", true)
-            .permitAll()
-        )
-        .rememberMe(rememberme -> rememberme
-            .rememberMeServices(rememberMeServices)
-            .rememberMeParameter("remember-me")
-        )
-        .logout(logout -> logout
-            .logoutUrl("/auth/logout")
-            .logoutSuccessUrl("/auth/login")
-            .permitAll()
-        );
-        return http.build();
     }
 
     @Bean

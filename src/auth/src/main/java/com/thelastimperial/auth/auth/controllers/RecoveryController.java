@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 */
 @AllArgsConstructor
 @Controller
-@RequestMapping(path = "/auth/recovery")
+@RequestMapping(path = "/recovery")
 public class RecoveryController {
     private final RecoveryHandler recoveryHandler;
 
@@ -44,7 +44,7 @@ public class RecoveryController {
             return "auth/recovery";
         }
         recoveryHandler.generate(recovery);
-        return "redirect:/auth/recovery?generated=true";
+        return "redirect:/recovery?generated=true";
     }
 
 }

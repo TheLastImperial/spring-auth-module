@@ -1,0 +1,49 @@
+<html layout:decorate="~{utils/layouts/main}">
+    <head>
+        <title>
+            Web Authn
+        </title>
+    </head>
+    <body>
+        <div layout:fragment="navbar">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-shield me-2"></i>Web Authn
+            </a>
+            <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/webauthn/register}">
+                        Register
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">
+                    <form method="post" th:action="@{/logout}">
+                        <button
+                        class="btn btn-outline-light btn-sm d-flex align-items-center gap-2"
+                        type="submit">
+                        Log Out</button>
+                    </form>
+                    </a>
+                </li>
+                </ul>
+            </div>
+        </div>
+        <div layout:fragment="content">
+            <div layout:fragment="container"></div>
+        </div>
+
+        <div layout:fragment="footer">
+            <p class="text-center text-body-secondary">
+                © 2026 Web Authn
+            </p>
+        </div>
+
+    </body>
+</html>

@@ -7,7 +7,6 @@ import lombok.Data;
 @Component
 @Data
 public class ClientProperty {
-    private String tz;
     private int expiresDays;
     private int secretSize;
     private int clientsize;

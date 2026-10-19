@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.domain.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,15 +28,15 @@ public class UserExpiryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private LocalDateTime credentialsExpiredAt;
-    private LocalDateTime accountExpiredAt;
+    private Instant credentialsExpiredAt;
+    private Instant accountExpiredAt;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = true)
     private UserEntity user;
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }

@@ -1,6 +1,6 @@
 package com.thelastimperial.auth.domain.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -37,7 +37,7 @@ public class UserAuditEntity {
     private UserActionEntity action;
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }

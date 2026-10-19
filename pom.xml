@@ -29,10 +29,12 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<com.thelastimperial.utils.version>0.0.6</com.thelastimperial.utils.version>
 	</properties>
     <modules>
         <module>src/domain</module>
         <module>src/auth</module>
+		<module>src/authn</module>
         <module>src/admin</module>
         <module>src/oauthserver</module>
         <module>src/testoauthserver</module>
@@ -57,7 +59,7 @@
 		<dependency>
 			<groupId>com.thelastimperial</groupId>
 			<artifactId>utils</artifactId>
-			<version>0.0.5</version>
+			<version>${com.thelastimperial.utils.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
