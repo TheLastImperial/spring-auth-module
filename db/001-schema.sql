@@ -81,6 +81,14 @@ CREATE TABLE public.user_invitations (
     host_id uuid
 );
 
+CREATE TABLE public.user_registered_clients (
+    id uuid NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    registered_client_id character varying(255),
+    updated_at timestamp(6) with time zone NOT NULL,
+    user_id uuid
+);
+
 ALTER TABLE ONLY public.user_role
     ADD CONSTRAINT uk872xec3woupu3gw59b04pj3sa UNIQUE (user_id, role_id);
 
@@ -113,6 +121,9 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.user_invitations
     ADD CONSTRAINT user_invitations_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.user_registered_clients
+    ADD CONSTRAINT user_registered_clients_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.user_invitations
     ADD CONSTRAINT fkcaip2ix6736fdknl21s8mjgkv FOREIGN KEY (guest_id) REFERENCES public.users(id);
