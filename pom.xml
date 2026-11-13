@@ -29,7 +29,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<com.thelastimperial.utils.version>0.0.6</com.thelastimperial.utils.version>
+		<com.thelastimperial.utils.version>0.0.9</com.thelastimperial.utils.version>
 	</properties>
     <modules>
         <module>src/domain</module>

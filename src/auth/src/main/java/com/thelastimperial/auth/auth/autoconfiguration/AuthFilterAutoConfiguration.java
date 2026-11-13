@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.thelastimperial.auth.auth.config.filters.LoginRateLimitFilter;
 import com.thelastimperial.auth.auth.config.security.customizers.AuthAuthorizeCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.FormLoginCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.LogoutCustomizer;
@@ -31,6 +33,7 @@ public class AuthFilterAutoConfiguration {
     private FormLoginCustomizer formLoginCustomizer;
     private RememberMeCustomizer rememberMeCustomizer;
     private LogoutCustomizer logoutCustomizer;
+    private LoginRateLimitFilter loginRateLimitFilter;
 
     @Bean
     @ConditionalOnMissingBean
@@ -52,6 +55,9 @@ public class AuthFilterAutoConfiguration {
         )
         .webAuthn(
             webAuthnCustomizer
+        )
+        .addFilterBefore(
+            loginRateLimitFilter, UsernamePasswordAuthenticationFilter.class
         );
         return http.build();
     }
