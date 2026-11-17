@@ -61,8 +61,5 @@ http
 )
 .webAuthn(
     webAuthnCustomizer
-)
-.addFilterBefore(
-    loginRateLimitFilter, UsernamePasswordAuthenticationFilter.class
 );
 ```
