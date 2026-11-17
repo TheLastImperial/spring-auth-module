@@ -4,8 +4,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 
-import com.thelastimperial.auth.auth.handlers.CredentialsExpiredHandler;
-import com.thelastimperial.auth.auth.services.RecoveryService;
+import com.thelastimperial.auth.auth.handlers.AuthenticationFailureHandler;
 
 import lombok.AllArgsConstructor;
 
@@ -15,14 +14,14 @@ import lombok.AllArgsConstructor;
 */
 @AllArgsConstructor
 public class FormLoginCustomizer implements Customizer<FormLoginConfigurer<HttpSecurity>> {
-    private RecoveryService recoveryService;
+    private final AuthenticationFailureHandler failureHandler;
 
     @Override
     public void customize(FormLoginConfigurer<HttpSecurity> t) {
         t
             .loginPage("/login")
             .failureUrl("/login?error=true")
-            .failureHandler(new CredentialsExpiredHandler(recoveryService))
+            .failureHandler(failureHandler)
             .defaultSuccessUrl("/", true)
             .permitAll();
     }

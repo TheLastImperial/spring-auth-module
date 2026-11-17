@@ -10,7 +10,9 @@ import com.thelastimperial.auth.auth.config.security.customizers.AuthAuthorizeCu
 import com.thelastimperial.auth.auth.config.security.customizers.FormLoginCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.LogoutCustomizer;
 import com.thelastimperial.auth.auth.config.security.customizers.RememberMeCustomizer;
+import com.thelastimperial.auth.auth.handlers.AuthenticationFailureHandler;
 import com.thelastimperial.auth.auth.services.RecoveryService;
+import com.thelastimperial.utils.services.RateLimitService;
 
 /**
  *
@@ -28,8 +30,10 @@ public class AuthCustomizerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public FormLoginCustomizer formLoginCustomizer(RecoveryService recoveryService) {
-        return new FormLoginCustomizer(recoveryService);
+    public FormLoginCustomizer formLoginCustomizer(
+        AuthenticationFailureHandler authenticationFailureHandler
+    ) {
+        return new FormLoginCustomizer(authenticationFailureHandler);
     }
 
     @Bean
@@ -42,5 +46,13 @@ public class AuthCustomizerAutoConfiguration {
     @ConditionalOnMissingBean
     public LogoutCustomizer logoutCustomizer() {
         return new LogoutCustomizer();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AuthenticationFailureHandler authenticationFailureHandler(
+        RecoveryService recoveryService, RateLimitService loginRateLimitService
+    ) {
+        return new AuthenticationFailureHandler(recoveryService, loginRateLimitService);
     }
 }
